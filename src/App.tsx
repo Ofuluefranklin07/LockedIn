@@ -17,7 +17,16 @@ import AuthPage from './pages/AuthPage';
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
   
-  if (loading) return null;
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#050505] flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 border-4 border-white/10 border-t-white rounded-full animate-spin" />
+          <p className="text-[#888] font-mono text-[10px] uppercase tracking-widest animate-pulse">Initializing System...</p>
+        </div>
+      </div>
+    );
+  }
   if (!user) return <Navigate to="/login" replace />;
   
   return <Layout>{children}</Layout>;

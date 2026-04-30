@@ -39,11 +39,11 @@ export default function Goals() {
     try {
       const q = query(
         collection(db, 'goals'), 
-        where('userId', '==', user?.uid),
-        orderBy('createdAt', 'desc')
+        where('userId', '==', user?.uid)
       );
       const snap = await getDocs(q);
-      setGoals(snap.docs.map(d => ({ id: d.id, ...d.data() } as Goal)));
+      const fetchedGoals = snap.docs.map(d => ({ id: d.id, ...d.data() } as Goal));
+      setGoals(fetchedGoals.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()));
     } catch (err) {
       handleFirestoreError(err, OperationType.LIST, 'goals');
     } finally {

@@ -38,7 +38,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
+    console.log("Setting up onAuthStateChanged");
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      console.log("Auth state changed:", user ? `Logged in as ${user.email}` : "Not logged in");
       setUser(user);
       if (user) {
         await fetchProfile(user.uid);
@@ -46,6 +48,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setProfile(null);
       }
       setLoading(false);
+      console.log("Auth initialization complete");
     });
 
     return unsubscribe;

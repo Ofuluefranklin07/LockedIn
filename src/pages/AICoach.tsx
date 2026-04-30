@@ -29,16 +29,17 @@ export default function AICoach() {
       // Fetch relevant data for AI analysis
       const logsSnap = await getDocs(query(
         collection(db, 'daily_logs'),
-        where('userId', '==', user.uid),
-        orderBy('date', 'desc'),
-        limit(14)
+        where('userId', '==', user.uid)
       ));
       const goalsSnap = await getDocs(query(
         collection(db, 'goals'),
         where('userId', '==', user.uid)
       ));
 
-      const logs = logsSnap.docs.map(d => d.data() as DailyLog);
+      const logs = logsSnap.docs
+        .map(d => d.data() as DailyLog)
+        .sort((a, b) => b.date.localeCompare(a.date))
+        .slice(0, 14);
       const goals = goalsSnap.docs.map(d => d.data() as Goal);
 
       const result = await getAICoachFeedback(profile, logs, goals);

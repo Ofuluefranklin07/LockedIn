@@ -41,12 +41,13 @@ export default function Analytics() {
     try {
       const q = query(
         collection(db, 'daily_logs'),
-        where('userId', '==', user?.uid),
-        orderBy('date', 'desc'),
-        limit(14)
+        where('userId', '==', user?.uid)
       );
       const snap = await getDocs(q);
-      const logsData = snap.docs.map(d => ({ id: d.id, ...d.data() } as DailyLog)).reverse();
+      const logsData = snap.docs
+        .map(d => ({ id: d.id, ...d.data() } as DailyLog))
+        .sort((a, b) => a.date.localeCompare(b.date)) // Sort chronologically for chart
+        .slice(-14); // Get last 14
       setLogs(logsData);
     } catch (err) {
       console.error(err);

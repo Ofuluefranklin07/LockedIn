@@ -53,25 +53,29 @@ export default function Dashboard() {
   const fetchDashboardData = async () => {
     if (!user) return;
     try {
-      // Fetch high priority goals
+      // Fetch goals (sort in memory to avoid needing composite index)
       const goalsQuery = query(
         collection(db, 'goals'), 
-        where('userId', '==', user.uid),
-        orderBy('createdAt', 'desc'),
-        limit(3)
+        where('userId', '==', user.uid)
       );
       const goalsSnap = await getDocs(goalsQuery);
-      setGoals(goalsSnap.docs.map(d => ({ id: d.id, ...d.data() } as Goal)));
+      const goalsData = goalsSnap.docs
+        .map(d => ({ id: d.id, ...d.data() } as Goal))
+        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+        .slice(0, 3);
+      setGoals(goalsData);
 
-      // Fetch recent logs
+      // Fetch recent logs (sort in memory to avoid needing index)
       const logsQuery = query(
         collection(db, 'daily_logs'),
-        where('userId', '==', user.uid),
-        orderBy('date', 'desc'),
-        limit(7)
+        where('userId', '==', user.uid)
       );
       const logsSnap = await getDocs(logsQuery);
-      setRecentLogs(logsSnap.docs.map(d => ({ id: d.id, ...d.data() } as DailyLog)));
+      const logsData = logsSnap.docs
+        .map(d => ({ id: d.id, ...d.data() } as DailyLog))
+        .sort((a, b) => b.date.localeCompare(a.date))
+        .slice(0, 7);
+      setRecentLogs(logsData);
 
       setLoading(false);
     } catch (error) {
