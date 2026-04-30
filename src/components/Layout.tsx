@@ -48,54 +48,60 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
       {/* Sidebar */}
       <aside className={cn(
-        "fixed md:static inset-0 bg-[#0A0A0A] z-40 transition-transform duration-300 md:translate-x-0 w-64 border-r border-[#1A1A1A] flex flex-col",
+        "fixed md:static inset-0 bg-[#050505] z-40 transition-transform duration-300 md:translate-x-0 w-64 border-r border-[#222] flex flex-col",
         !isSidebarOpen && "-translate-x-full"
       )}>
-        <div className="p-8 hidden md:flex items-center gap-3">
-          <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center text-black">
-            <Target size={18} strokeWidth={2.5} />
+        <div className="p-8 hidden md:flex flex-col">
+          <div className="flex items-center gap-3">
+            <Target className="text-white" size={32} />
+            <h1 className="text-4xl font-black italic tracking-tighter uppercase leading-none">LockIn</h1>
           </div>
-          <span className="font-black text-xl tracking-tighter uppercase">LockIn</span>
+          <p className="mt-4 text-[#888] font-mono text-[9px] uppercase tracking-widest leading-tight">
+            Status: {profile ? 'Locked In' : 'Standby'}
+          </p>
         </div>
 
-        <nav className="flex-1 px-4 mt-4 space-y-1">
+        <nav className="flex-1 px-4 mt-8 space-y-2">
           {navItems.map((item) => (
             <NavLink
               key={item.path}
               to={item.path}
               className={({ isActive }) => cn(
-                "flex items-center gap-3 px-4 py-3 rounded-xl transition-all group",
+                "flex items-center gap-3 px-4 py-3 border border-transparent transition-all group",
                 isActive 
-                  ? "bg-white text-black" 
-                  : "text-gray-400 hover:text-white hover:bg-[#141414]"
+                  ? "border-[#F5F5F5] bg-[#F5F5F5] text-[#050505]" 
+                  : "text-[#888] hover:text-white hover:border-[#222]"
               )}
             >
-              <item.icon size={20} />
-              <span className="font-medium">{item.label}</span>
+              <item.icon size={18} />
+              <span className="font-bold uppercase text-[11px] tracking-widest">{item.label}</span>
             </NavLink>
           ))}
         </nav>
 
-        <div className="p-4 mt-auto border-t border-[#1A1A1A]">
-          <div className="flex items-center gap-3 px-4 py-4 mb-4 bg-[#141414] rounded-2xl border border-[#262626]">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center text-white font-bold border border-[#333]">
-              {profile?.name?.charAt(0) || 'U'}
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-bold truncate">{profile?.name || 'User'}</p>
-              <div className="flex items-center gap-1 text-[10px] text-orange-500 font-bold uppercase tracking-widest mt-0.5">
-                <Flame size={10} fill="currentColor" />
-                {profile?.currentStreak || 0} Day Streak
+        <div className="p-4 mt-auto border-t border-[#222]">
+          <div className="p-6 mb-4 bg-[#0A0A0A] border border-[#222]">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-8 h-8 rounded-none bg-[#F5F5F5] flex items-center justify-center text-[#050505] font-black">
+                {profile?.name?.charAt(0) || 'U'}
               </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-[10px] font-mono uppercase text-[#888] leading-none mb-1">Authenticated</p>
+                <p className="text-sm font-black truncate uppercase italic">{profile?.name || 'User'}</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-1.5 text-[10px] text-[#F97316] font-mono uppercase tracking-widest">
+              <Flame size={12} fill="currentColor" />
+              {profile?.currentStreak || 0} DAY STREAK
             </div>
           </div>
 
           <button
             onClick={handleSignOut}
-            className="flex items-center gap-3 w-full px-4 py-3 text-gray-400 hover:text-red-400 hover:bg-red-400/5 rounded-xl transition-all"
+            className="flex items-center gap-3 w-full px-4 py-3 text-[#555] hover:text-white transition-all font-mono text-[10px] uppercase tracking-widest"
           >
-            <LogOut size={20} />
-            <span className="font-medium text-sm">Sign Out</span>
+            <LogOut size={16} />
+            <span>Terminate Session</span>
           </button>
         </div>
       </aside>

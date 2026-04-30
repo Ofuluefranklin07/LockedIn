@@ -66,107 +66,113 @@ export default function FocusMode() {
     : (1 - timeLeft / (5 * 60)) * 100;
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[70vh] py-12 relative overflow-hidden">
+    <div className="flex flex-col items-center justify-center min-h-[80vh] py-12 relative overflow-hidden">
       {/* Background Ambience */}
-      <div className="absolute inset-0 z-0 flex items-center justify-center">
+      <div className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none">
         <motion.div 
           animate={{ 
-            scale: isActive ? [1, 1.2, 1] : 1,
-            opacity: isActive ? [0.05, 0.1, 0.05] : 0.05
+            scale: isActive ? [1, 1.1, 1] : 1,
+            opacity: isActive ? [0.03, 0.08, 0.03] : 0.03
           }}
           transition={{ duration: 4, repeat: Infinity }}
           className={cn(
-            "w-[500px] h-[500px] rounded-full blur-[100px]",
-            sessionType === 'work' ? "bg-white" : "bg-green-500"
+            "w-[800px] h-[800px] blur-[120px]",
+            sessionType === 'work' ? "bg-white" : "bg-[#F97316]"
           )}
         />
       </div>
 
       <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="relative z-10 w-full max-w-xl text-center"
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="relative z-10 w-full max-w-2xl text-center"
       >
-        <div className="flex items-center justify-center gap-2 mb-12">
+        <div className="flex items-center justify-center gap-4 mb-16">
           <div className={cn(
-            "flex items-center gap-2 px-4 py-2 rounded-full border text-xs font-black uppercase tracking-widest transition-colors",
-            sessionType === 'work' ? "bg-white text-black border-white" : "bg-green-500 text-black border-green-500"
+            "flex items-center gap-3 px-6 py-3 border font-black uppercase tracking-[0.3em] text-[10px] transition-all italic",
+            sessionType === 'work' ? "bg-white text-black border-white" : "bg-[#F97316] text-black border-[#F97316]"
           )}>
-            {sessionType === 'work' ? <Zap size={14} fill="currentColor" /> : <Coffee size={14} />}
-            {sessionType === 'work' ? 'Lock In Mode' : 'Refuel Phase'}
+            {sessionType === 'work' ? <Zap size={16} fill="currentColor" /> : <Coffee size={16} />}
+            {sessionType === 'work' ? 'SYSTEM LOCK-IN' : 'REFUEL DOWNTIME'}
           </div>
         </div>
 
-        <div className="relative mb-16 px-4">
-          <h1 className="text-[120px] md:text-[180px] font-black font-mono leading-none tracking-tighter tabular-nums select-none italic">
+        <div className="relative mb-24 px-4">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-12 select-none opacity-5">
+            <span className="text-[200px] font-black italic uppercase tracking-tighter">FOCUS</span>
+          </div>
+          
+          <h1 className="text-[140px] md:text-[240px] font-black font-mono leading-none tracking-tighter tabular-nums select-none italic text-white drop-shadow-2xl">
             {formatTime(timeLeft)}
           </h1>
           
-          <div className="absolute left-0 right-0 -bottom-4 px-12 md:px-24">
-            <div className="h-1.5 w-full bg-[#1A1A1A] rounded-full overflow-hidden">
+          <div className="absolute left-0 right-0 -bottom-8 px-8 md:px-16">
+            <div className="h-4 w-full bg-[#111] border border-[#222] overflow-hidden">
               <motion.div 
                 animate={{ width: `${progress}%` }}
                 className={cn(
-                  "h-full transition-colors",
-                  sessionType === 'work' ? "bg-white shadow-[0_0_15px_rgba(255,255,255,0.5)]" : "bg-green-500 shadow-[0_0_15px_rgba(34,197,94,0.5)]"
+                  "h-full relative",
+                  sessionType === 'work' ? "bg-white" : "bg-[#F97316]"
                 )} 
-              />
+              >
+                <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent_0%,rgba(255,255,255,0.4)_50%,transparent_100%)] animate-[shimmer_2s_infinite]" />
+              </motion.div>
             </div>
           </div>
         </div>
 
-        <div className="flex items-center justify-center gap-6">
+        <div className="flex items-center justify-center gap-10">
           <button 
             onClick={resetTimer}
-            className="p-5 rounded-3xl bg-[#141414] border border-[#262626] text-gray-500 hover:text-white hover:border-white transition-all active:scale-95"
+            className="p-6 bg-[#0A0A0A] border border-[#222] text-[#444] hover:text-white hover:border-white transition-all active:scale-95 italic font-black uppercase tracking-widest text-[10px]"
           >
-            <RotateCcw size={28} />
+            <RotateCcw size={32} />
           </button>
           
           <button 
             onClick={toggleTimer}
             className={cn(
-              "w-24 h-24 rounded-[40px] flex items-center justify-center transition-all shadow-2xl active:scale-90",
+              "w-32 h-32 flex items-center justify-center transition-all active:scale-90 border-2",
               isActive 
-                ? "bg-[#141414] border-2 border-white text-white hover:bg-white hover:text-black" 
-                : "bg-white text-black hover:bg-gray-200"
+                ? "bg-transparent border-white text-white hover:bg-white hover:text-black" 
+                : "bg-white border-white text-black hover:bg-[#DDD]"
             )}
           >
-            {isActive ? <Pause size={40} fill="currentColor" strokeWidth={0} /> : <Play size={40} fill="currentColor" strokeWidth={0} className="ml-2" />}
+            {isActive ? <Pause size={56} fill="currentColor" strokeWidth={0} /> : <Play size={56} fill="currentColor" strokeWidth={0} className="ml-2" />}
           </button>
 
-          <button className="p-5 rounded-3xl bg-[#141414] border border-[#262626] text-gray-500 hover:text-white transition-all active:scale-95 cursor-not-allowed opacity-50">
-            <Settings size={28} />
+          <button className="p-6 bg-[#0A0A0A] border border-[#222] text-[#444] hover:text-white transition-all active:scale-95 cursor-not-allowed opacity-20">
+            <Settings size={32} />
           </button>
         </div>
 
-        <div className="mt-20 grid grid-cols-2 gap-8 max-w-sm mx-auto">
-          <div className="text-center group ring-1 ring-[#262626] p-6 rounded-3xl hover:ring-white transition-all">
-            <div className="p-2 bg-white/5 rounded-xl text-gray-400 w-fit mx-auto mb-2 group-hover:bg-white group-hover:text-black transition-all">
-              <Target size={18} />
+        <div className="mt-24 grid grid-cols-2 gap-8 max-w-lg mx-auto">
+          <div className="text-center group border border-[#222] p-10 bg-[#0A0A0A] relative overflow-hidden">
+            <p className="text-[10px] uppercase font-mono tracking-[0.3em] text-[#555] mb-4 italic font-black">Cycles Logged</p>
+            <h4 className="text-5xl font-black italic uppercase tracking-tighter">{sessionsCompleted}</h4>
+            <div className="absolute -bottom-4 -left-4 opacity-[0.03] pointer-events-none">
+              <Target size={80} />
             </div>
-            <p className="text-[10px] uppercase font-black tracking-widest text-gray-500 mb-1">Sessions Today</p>
-            <h4 className="text-2xl font-black">{sessionsCompleted}</h4>
           </div>
-          <div className="text-center group ring-1 ring-[#262626] p-6 rounded-3xl hover:ring-white transition-all">
-            <div className="p-2 bg-white/5 rounded-xl text-gray-400 w-fit mx-auto mb-2 group-hover:bg-white group-hover:text-black transition-all">
-              <TimerIcon size={18} />
+          <div className="text-center group border border-[#222] p-10 bg-[#0A0A0A] relative overflow-hidden">
+            <p className="text-[10px] uppercase font-mono tracking-[0.3em] text-[#555] mb-4 italic font-black">Focus Duration</p>
+            <h4 className="text-5xl font-black italic uppercase tracking-tighter font-mono">{Math.floor((sessionsCompleted * 25) / 60)}H {(sessionsCompleted * 25) % 60}M</h4>
+            <div className="absolute -bottom-4 -right-4 opacity-[0.03] pointer-events-none">
+              <TimerIcon size={80} />
             </div>
-            <p className="text-[10px] uppercase font-black tracking-widest text-gray-500 mb-1">Total Focus</p>
-            <h4 className="text-2xl font-black">{Math.floor((sessionsCompleted * 25) / 60)}h { (sessionsCompleted * 25) % 60 }m</h4>
           </div>
         </div>
       </motion.div>
 
       {/* Aesthetic Accents */}
-      <div className="hidden lg:block absolute left-12 top-1/2 -translate-y-1/2 overflow-hidden pointer-events-none opacity-20">
-        <p className="text-[150px] font-black uppercase italic leading-none whitespace-nowrap -rotate-90 select-none text-white/5">
-          NO DISTRACTIONS
+      <div className="hidden lg:block absolute left-4 top-1/2 -translate-y-1/2 overflow-hidden pointer-events-none opacity-10">
+        <p className="text-[180px] font-black uppercase italic leading-none whitespace-nowrap -rotate-90 select-none text-white/5 tracking-tighter">
+          COGNITIVE LOCK
         </p>
       </div>
-      <div className="hidden lg:block absolute right-12 top-1/2 -translate-y-1/2 overflow-hidden pointer-events-none opacity-20">
-        <p className="text-[150px] font-black uppercase italic leading-none whitespace-nowrap rotate-90 select-none text-white/5">
-          STAY DISCIPLINED
+      <div className="hidden lg:block absolute right-4 top-1/2 -translate-y-1/2 overflow-hidden pointer-events-none opacity-10">
+        <p className="text-[180px] font-black uppercase italic leading-none whitespace-nowrap rotate-90 select-none text-white/5 tracking-tighter">
+          PEAK EFFICIENCY
         </p>
       </div>
     </div>
