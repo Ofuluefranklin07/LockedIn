@@ -1,0 +1,93 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // Users
+    match /users/{userId} {
+      function isValidUser(data) {
+        return data.name is string && data.name.size() > 0 && data.name.size() <= 100 &&
+               data.email is string && data.email.size() > 0 &&
+               data.academicLevel in ['secondary school', 'undergraduate', 'postgraduate', 'other'] &&
+               data.fieldOfStudy is string && data.fieldOfStudy.size() <= 200;
+      }
+
+      allow get: if isSignedIn();
+      allow create: if isOwner(userId) && isValidUser(incoming());
+      allow update: if isOwner(userId) && isValidUser(incoming()) && 
+                    incoming().email == existing().email; // Email is immutable for now
+    }
+
+    // Goals
+    match /goals/{goalId} {
+      function isValidGoal(data) {
+        return data.userId == request.auth.uid &&
+               data.title is string && data.title.size() > 0 && data.title.size() <= 200 &&
+               data.category in ['academic', 'health', 'personal'] &&
+               data.priority in ['low', 'medium', 'high'] &&
+               data.deadline is string; // Simplified for rule but app handles date format
+      }
+
+      allow list: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow get: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn() && isValidGoal(incoming());
+      allow update: if isSignedIn() && existing().userId == request.auth.uid && isValidGoal(incoming());
+      allow delete: if isSignedIn() && existing().userId == request.auth.uid;
+
+      // Tasks (Subcollection)
+      match /tasks/{taskId} {
+        function isValidTask(data) {
+          return data.goalId == goalId &&
+                 data.title is string && data.title.size() > 0 && data.title.size() <= 500 &&
+                 data.completed is bool;
+        }
+
+        allow list: if isSignedIn() && get(/databases/$(database)/documents/goals/$(goalId)).data.userId == request.auth.uid;
+        allow get: if isSignedIn() && get(/databases/$(database)/documents/goals/$(goalId)).data.userId == request.auth.uid;
+        allow create: if isSignedIn() && get(/databases/$(database)/documents/goals/$(goalId)).data.userId == request.auth.uid && isValidTask(incoming());
+        allow update: if isSignedIn() && get(/databases/$(database)/documents/goals/$(goalId)).data.userId == request.auth.uid && isValidTask(incoming());
+        allow delete: if isSignedIn() && get(/databases/$(database)/documents/goals/$(goalId)).data.userId == request.auth.uid;
+      }
+    }
+
+    // Daily Logs
+    match /daily_logs/{logId} {
+      function isValidLog(data) {
+        return data.userId == request.auth.uid &&
+               data.date is string &&
+               data.hoursStudied is number && data.hoursStudied >= 0 &&
+               data.focusLevel is int && data.focusLevel >= 1 && data.focusLevel <= 10;
+      }
+
+      allow list: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow get: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn() && isValidLog(incoming());
+      allow update: if isSignedIn() && existing().userId == request.auth.uid && isValidLog(incoming());
+      allow delete: if isSignedIn() && existing().userId == request.auth.uid;
+    }
+  }
+}

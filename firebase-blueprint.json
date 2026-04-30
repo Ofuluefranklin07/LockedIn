@@ -1,0 +1,76 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Student user profile",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "academicLevel": { "type": "string", "enum": ["secondary school", "undergraduate", "postgraduate", "other"] },
+        "fieldOfStudy": { "type": "string" },
+        "currentStreak": { "type": "integer", "description": "Current daily check-in streak" },
+        "longestStreak": { "type": "integer", "description": "Longest daily check-in streak" },
+        "lastLogDate": { "type": "string", "format": "date", "description": "Last date the user logged activity (YYYY-MM-DD)" }
+      },
+      "required": ["name", "email", "academicLevel", "fieldOfStudy"]
+    },
+    "Goal": {
+      "title": "Goal",
+      "description": "A student's academic or personal goal",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "title": { "type": "string" },
+        "category": { "type": "string", "enum": ["academic", "health", "personal"] },
+        "deadline": { "type": "string", "format": "date-time" },
+        "priority": { "type": "string", "enum": ["low", "medium", "high"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "title", "category", "deadline", "priority"]
+    },
+    "Task": {
+      "title": "Task",
+      "description": "A sub-task of a goal",
+      "type": "object",
+      "properties": {
+        "goalId": { "type": "string" },
+        "title": { "type": "string" },
+        "completed": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["goalId", "title", "completed"]
+    },
+    "DailyLog": {
+      "title": "DailyLog",
+      "description": "Daily activity log for study hours and focus",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "date": { "type": "string", "format": "date" },
+        "hoursStudied": { "type": "number" },
+        "focusLevel": { "type": "integer", "description": "Focus level from 1 to 10" },
+        "tasksCompletedCount": { "type": "integer" }
+      },
+      "required": ["userId", "date", "hoursStudied", "focusLevel"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles"
+    },
+    "/goals/{goalId}": {
+      "schema": "Goal",
+      "description": "Main goals"
+    },
+    "/goals/{goalId}/tasks/{taskId}": {
+      "schema": "Task",
+      "description": "Tasks associated with a goal"
+    },
+    "/daily_logs/{logId}": {
+      "schema": "DailyLog",
+      "description": "Daily activity logs"
+    }
+  }
+}
