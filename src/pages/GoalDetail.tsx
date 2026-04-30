@@ -107,38 +107,38 @@ export default function GoalDetail() {
     : 0;
 
   return (
-    <div className="max-w-4xl mx-auto space-y-12 pb-32">
+    <div className="max-w-4xl mx-auto space-y-12 md:space-y-20 pb-32">
       <button 
         onClick={() => navigate('/goals')}
-        className="flex items-center gap-2 text-[#444] hover:text-white transition-colors group mb-8"
+        className="flex items-center gap-2 text-[#444] hover:text-white transition-colors group mb-8 active:scale-95"
       >
         <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
-        <span className="font-mono uppercase tracking-[0.3em] text-[10px]">Return to Tactical Hub</span>
+        <span className="font-mono uppercase tracking-[0.3em] text-[10px] italic font-black">Return to Tactical Hub</span>
       </button>
 
-      <header className="space-y-10">
+      <header className="space-y-10 md:space-y-16">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-10">
-          <div className="space-y-6 flex-1">
-            <div className="flex items-center gap-3">
+          <div className="space-y-8 flex-1">
+            <div className="flex flex-wrap items-center gap-3">
               <span className={cn(
-                "text-[10px] uppercase font-mono tracking-widest px-3 py-1 border font-black",
+                "text-[10px] uppercase font-mono tracking-[0.2em] px-3 py-1 border font-black italic",
                 goal.priority === 'high' ? "bg-red-500/10 text-red-500 border-red-500/20" :
                 goal.priority === 'medium' ? "bg-yellow-500/10 text-yellow-500 border-yellow-500/20" :
                 "bg-blue-500/10 text-blue-500 border-blue-500/20"
               )}>
                 {goal.priority} PRIORITY
               </span>
-              <span className="text-[10px] uppercase font-mono tracking-widest px-3 py-1 bg-[#222] text-gray-400 border border-[#333] font-black">
+              <span className="text-[10px] uppercase font-mono tracking-[0.2em] px-3 py-1 bg-[#111] text-[#666] border border-[#222] font-black italic">
                 {goal.category}
               </span>
             </div>
-            <h1 className="text-7xl font-black tracking-tighter uppercase italic leading-none">{goal.title}</h1>
+            <h1 className="text-[40px] sm:text-[60px] md:text-[80px] lg:text-[100px] font-display font-black tracking-tighter uppercase italic leading-[0.85]">{goal.title}</h1>
           </div>
           
-          <div className="flex flex-col items-end gap-2 shrink-0">
-            <div className="text-right">
-              <p className="text-[10px] uppercase font-mono tracking-[0.3em] text-gray-500 mb-2 italic">Operation Completion</p>
-              <h3 className="text-6xl font-black font-mono tracking-tighter">{progress}%</h3>
+          <div className="flex flex-col md:items-end gap-2 shrink-0">
+            <div className="bg-[#0A0A0A] border border-[#222] p-8 md:p-10 border-l-4 border-l-white">
+              <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-[#444] mb-3 italic font-black">Operation Completion</p>
+              <h3 className="text-6xl md:text-7xl font-display font-black italic tracking-tighter leading-none">{progress}%</h3>
             </div>
           </div>
         </div>

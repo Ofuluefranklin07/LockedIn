@@ -28,7 +28,8 @@ import {
   Zap,
   ArrowRight,
   Timer,
-  MessageSquare
+  MessageSquare,
+  Target
 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { cn, formatDate, getTodayDateString } from '../lib/utils';
@@ -158,56 +159,56 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="space-y-12">
+    <div className="space-y-10 md:space-y-16">
       {/* Header Section */}
-      <section className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#222] pb-12">
+      <section className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-[#222] pb-10 md:pb-16">
         <div className="relative">
-          <h1 className="text-[80px] md:text-[100px] font-black italic uppercase leading-[0.8] tracking-tighter">Command</h1>
-          <h1 className="text-[80px] md:text-[100px] font-black italic uppercase leading-[0.8] tracking-tighter translate-x-4">Center</h1>
-          <p className="mt-8 text-[#888] font-mono text-[10px] uppercase tracking-[0.3em]">
-            User: {profile?.name} — {profile?.academicLevel} — {profile?.fieldOfStudy}
+          <h1 className="text-[52px] sm:text-[70px] md:text-[80px] lg:text-[100px] font-display font-black italic uppercase leading-[0.85] tracking-tighter">Command</h1>
+          <h1 className="text-[52px] sm:text-[70px] md:text-[80px] lg:text-[100px] font-display font-black italic uppercase leading-[0.85] tracking-tighter translate-x-2 md:translate-x-4">Center</h1>
+          <p className="mt-8 text-[#666] font-mono text-[9px] md:text-[10px] uppercase tracking-[0.3em] font-medium italic">
+            // OPERATOR: {profile?.name} <span className="mx-2 opacity-20">|</span> {profile?.academicLevel} <span className="mx-2 opacity-20">|</span> {profile?.fieldOfStudy}
           </p>
         </div>
         <button 
           onClick={() => setShowLogModal(true)}
-          className="bg-[#F5F5F5] text-[#050505] px-8 py-5 font-black uppercase tracking-widest hover:bg-[#DDD] transition-all italic text-sm"
+          className="bg-[#F5F5F5] text-[#050505] w-full md:w-auto px-10 py-5 font-display font-black uppercase tracking-[0.2em] hover:bg-white transition-all italic text-sm shadow-[0_0_30px_rgba(255,255,255,0.05)] active:scale-[0.98]"
         >
           Deploy Log
         </button>
       </section>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="border border-[#222] bg-[#0A0A0A] p-8 relative overflow-hidden group">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+        <div className="border border-[#222] bg-[#0A0A0A] p-6 md:p-8 relative overflow-hidden group">
           <div className="relative z-10">
-            <p className="text-[10px] font-mono uppercase text-[#888] tracking-widest mb-4 italic">Operational Streak</p>
-            <h3 className="text-6xl font-black italic text-[#F97316]">{profile?.currentStreak || 0}</h3>
-            <p className="text-[9px] font-mono text-[#555] mt-4 uppercase tracking-widest">{streakStatus()}</p>
+            <p className="text-[10px] font-mono uppercase text-[#555] tracking-[0.3em] mb-4 italic font-black">Operational Streak</p>
+            <h3 className="text-5xl md:text-6xl font-display font-black italic text-[#F97316] tracking-tighter">{profile?.currentStreak || 0}</h3>
+            <p className="text-[9px] font-mono text-[#444] mt-4 uppercase tracking-[0.2em] font-black italic">{streakStatus()}</p>
           </div>
-          <Flame className="absolute -bottom-6 -right-6 text-orange-500/5 rotate-12" size={140} fill="currentColor" />
+          <Flame className="absolute -bottom-6 -right-6 text-[#F97316]/5 rotate-12 transition-transform group-hover:scale-110" size={140} fill="currentColor" />
         </div>
 
-        <div className="border border-[#222] bg-[#0A0A0A] p-8">
-          <p className="text-[10px] font-mono uppercase text-[#888] tracking-widest mb-4 italic">Weekly Intensity</p>
-          <h3 className="text-6xl font-black italic">
+        <div className="border border-[#222] bg-[#0A0A0A] p-6 md:p-8">
+          <p className="text-[10px] font-mono uppercase text-[#555] tracking-[0.3em] mb-4 italic font-black">Weekly Intensity</p>
+          <h3 className="text-5xl md:text-6xl font-display font-black italic tracking-tighter">
             {recentLogs.reduce((acc, curr) => acc + curr.hoursStudied, 0).toFixed(1)}
-            <span className="text-xl ml-2 font-mono uppercase tracking-normal">H</span>
+            <span className="text-xl ml-2 font-mono uppercase tracking-normal opacity-40">H</span>
           </h3>
-          <p className="text-[9px] font-mono text-[#555] mt-4 uppercase tracking-widest">Total Study Hours</p>
+          <p className="text-[9px] font-mono text-[#444] mt-4 uppercase tracking-[0.2em] font-black italic">Total Study Hours</p>
         </div>
 
-        <div className="border border-[#222] bg-[#0A0A0A] p-8">
-          <p className="text-[10px] font-mono uppercase text-[#888] tracking-widest mb-4 italic">Active Objectives</p>
-          <h3 className="text-6xl font-black italic">{goals.length}</h3>
-          <p className="text-[9px] font-mono text-[#555] mt-4 uppercase tracking-widest">Ongoing Missions</p>
+        <div className="border border-[#222] bg-[#0A0A0A] p-6 md:p-8">
+          <p className="text-[10px] font-mono uppercase text-[#555] tracking-[0.3em] mb-4 italic font-black">Active Objectives</p>
+          <h3 className="text-5xl md:text-6xl font-display font-black italic tracking-tighter">{goals.length}</h3>
+          <p className="text-[9px] font-mono text-[#444] mt-4 uppercase tracking-[0.2em] font-black italic">Ongoing Missions</p>
         </div>
 
-        <div className="border border-[#222] bg-[#0A0A0A] p-8">
-          <p className="text-[10px] font-mono uppercase text-[#888] tracking-widest mb-4 italic">Cognitive Load</p>
-          <h3 className="text-6xl font-black italic">
+        <div className="border border-[#222] bg-[#0A0A0A] p-6 md:p-8">
+          <p className="text-[10px] font-mono uppercase text-[#555] tracking-[0.3em] mb-4 italic font-black">Cognitive Load</p>
+          <h3 className="text-5xl md:text-6xl font-display font-black italic tracking-tighter">
             {(recentLogs.reduce((acc, curr) => acc + curr.focusLevel, 0) / (recentLogs.length || 1)).toFixed(1)}
           </h3>
-          <p className="text-[9px] font-mono text-[#555] mt-4 uppercase tracking-widest">Avg Focus Intensity</p>
+          <p className="text-[9px] font-mono text-[#444] mt-4 uppercase tracking-[0.2em] font-black italic">Avg Focus Intensity</p>
         </div>
       </div>
 
@@ -227,27 +228,31 @@ export default function Dashboard() {
                 <Link 
                   key={goal.id} 
                   to={`/goals/${goal.id}`}
-                  className="group block bg-[#0A0A0A] border border-[#222] p-8 hover:border-[#F5F5F5] transition-all"
+                  className="group block bg-[#0A0A0A] border border-[#222] p-6 md:p-8 hover:border-[#F5F5F5] transition-all relative overflow-hidden"
                 >
                   <div className="flex items-start justify-between mb-8">
-                    <div className="space-y-2">
+                    <div className="space-y-3">
                       <div className="flex items-center gap-3">
-                        <span className="text-[9px] font-mono font-black uppercase tracking-widest px-2 py-1 bg-[#222] text-[#888]">
+                        <span className="text-[9px] font-mono font-black uppercase tracking-[0.2em] px-2 py-1 bg-[#111] text-[#666] border border-[#222]">
                           {goal.priority}
                         </span>
-                        <span className="text-[9px] font-mono font-black uppercase tracking-widest px-2 py-1 border border-[#222] text-[#555]">
+                        <span className="text-[9px] font-mono font-black uppercase tracking-[0.2em] px-2 py-1 border border-[#222] text-[#444] italic">
                           {goal.category}
                         </span>
                       </div>
-                      <h4 className="text-4xl font-black uppercase italic tracking-tighter group-hover:text-white">{goal.title}</h4>
+                      <h4 className="text-3xl md:text-4xl font-display font-black uppercase italic tracking-tighter group-hover:text-white transition-colors">{goal.title}</h4>
                     </div>
-                    <ArrowRight className="text-[#333] group-hover:text-white group-hover:translate-x-2 transition-all" size={32} />
+                    <ArrowRight className="text-[#222] group-hover:text-white group-hover:translate-x-2 transition-all" size={32} />
                   </div>
                   
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2 text-[10px] font-mono text-[#555] uppercase tracking-widest">
-                      <Calendar size={12} /> Deadline: {formatDate(goal.deadline)}
+                    <div className="flex items-center gap-2 text-[10px] font-mono text-[#444] uppercase tracking-[0.2em] italic font-black">
+                      <Calendar size={12} className="opacity-40" /> Terminal: {formatDate(goal.deadline)}
                     </div>
+                  </div>
+                  {/* Decorative background text */}
+                  <div className="absolute -bottom-4 -right-4 opacity-[0.02] pointer-events-none transition-opacity group-hover:opacity-10">
+                    <Target size={100} />
                   </div>
                 </Link>
               ))
@@ -269,47 +274,49 @@ export default function Dashboard() {
         <div className="lg:col-span-4 space-y-8">
           <h2 className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#888] italic pb-4 border-b border-[#222]">Tactical Actions</h2>
           
-          <div className="space-y-4">
-            <Link 
-              to="/focus" 
-              className="flex items-center justify-between p-6 bg-[#0A0A0A] border border-[#222] hover:border-[#F5F5F5] transition-all group"
-            >
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 border border-[#222] flex items-center justify-center text-[#555] group-hover:border-white group-hover:text-white transition-all">
-                  <Timer size={20} />
+          <div className="space-y-12">
+            <div className="space-y-4">
+              <Link 
+                to="/focus" 
+                className="flex items-center justify-between p-6 md:p-8 bg-[#0A0A0A] border border-[#222] hover:border-[#F5F5F5] transition-all group"
+              >
+                <div className="flex items-center gap-5">
+                  <div className="w-12 h-12 border border-[#222] flex items-center justify-center text-[#444] group-hover:border-white group-hover:text-white transition-all bg-[#050505]">
+                    <Timer size={22} />
+                  </div>
+                  <div>
+                    <h4 className="font-display font-black text-base md:text-lg uppercase italic tracking-tight">Focus Mode</h4>
+                    <p className="text-[9px] font-mono text-[#444] uppercase tracking-[0.2em] mt-1 font-black italic">Engage Deep Work</p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="font-black text-sm uppercase italic">Focus Mode</h4>
-                  <p className="text-[9px] font-mono text-[#555] uppercase tracking-widest mt-1">Engage Deep Work</p>
+                <ChevronRight size={20} className="text-[#222] group-hover:text-white transition-colors" />
+              </Link>
+  
+              <Link 
+                to="/coach" 
+                className="flex items-center justify-between p-6 md:p-8 bg-[#0A0A0A] border border-[#222] hover:border-[#F5F5F5] transition-all group"
+              >
+                <div className="flex items-center gap-5">
+                  <div className="w-12 h-12 border border-[#222] flex items-center justify-center text-[#444] group-hover:border-white group-hover:text-white transition-all bg-[#050505]">
+                    <MessageSquare size={22} />
+                  </div>
+                  <div>
+                    <h4 className="font-display font-black text-base md:text-lg uppercase italic tracking-tight">AI Coach</h4>
+                    <p className="text-[9px] font-mono text-[#444] uppercase tracking-[0.2em] mt-1 font-black italic">Neural Advice</p>
+                  </div>
                 </div>
+                <ChevronRight size={20} className="text-[#222] group-hover:text-white transition-colors" />
+              </Link>
+            </div>
+  
+            <div className="border border-[#F97316]/50 p-8 md:p-10 bg-[#0F0804] relative overflow-hidden group">
+              <h4 className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#F97316] mb-6 italic font-black">Advisor Flash</h4>
+              <p className="text-sm md:text-base italic leading-relaxed text-[#CCC] mb-8 font-medium">
+                "Your focus is highest between 18:00 and 21:00. Maintain this velocity."
+              </p>
+              <div className="text-[70px] font-display font-black text-[#F97316]/5 absolute bottom-0 right-0 leading-none pointer-events-none uppercase italic tracking-tighter transition-all group-hover:opacity-10">
+                INSIGHT
               </div>
-              <ChevronRight size={16} className="text-[#333]" />
-            </Link>
-
-            <Link 
-              to="/coach" 
-              className="flex items-center justify-between p-6 bg-[#0A0A0A] border border-[#222] hover:border-[#F5F5F5] transition-all group"
-            >
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 border border-[#222] flex items-center justify-center text-[#555] group-hover:border-white group-hover:text-white transition-all">
-                  <MessageSquare size={20} />
-                </div>
-                <div>
-                  <h4 className="font-black text-sm uppercase italic">AI Coach</h4>
-                  <p className="text-[9px] font-mono text-[#555] uppercase tracking-widest mt-1">Neural Advice</p>
-                </div>
-              </div>
-              <ChevronRight size={16} className="text-[#333]" />
-            </Link>
-          </div>
-
-          <div className="border border-[#F97316] p-8 bg-[#0F0804] relative overflow-hidden">
-            <h4 className="text-[10px] font-mono uppercase tracking-[0.2em] text-[#F97316] mb-6 italic">Advisor Flash</h4>
-            <p className="text-sm italic leading-relaxed text-[#CCC] mb-8 font-medium">
-              "Your focus is highest between 18:00 and 21:00. Maintain this velocity."
-            </p>
-            <div className="text-[60px] font-black text-[#F97316]/5 absolute bottom-0 right-0 leading-none pointer-events-none uppercase italic">
-              INSIGHT
             </div>
           </div>
         </div>

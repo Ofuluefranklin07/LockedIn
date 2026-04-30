@@ -97,17 +97,17 @@ export default function FocusMode() {
           </div>
         </div>
 
-        <div className="relative mb-24 px-4">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-12 select-none opacity-5">
-            <span className="text-[200px] font-black italic uppercase tracking-tighter">FOCUS</span>
+        <div className="relative mb-16 md:mb-24 px-4 h-40 md:h-64 flex items-center justify-center">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none opacity-[0.03] scale-150 md:scale-100">
+            <span className="text-[120px] md:text-[200px] font-display font-black italic uppercase tracking-tighter">FOCUS</span>
           </div>
           
-          <h1 className="text-[140px] md:text-[240px] font-black font-mono leading-none tracking-tighter tabular-nums select-none italic text-white drop-shadow-2xl">
+          <h1 className="text-[100px] sm:text-[140px] md:text-[200px] lg:text-[240px] font-display font-black leading-none tracking-tighter tabular-nums select-none italic text-white drop-shadow-[0_20px_50px_rgba(255,255,255,0.1)] relative z-10">
             {formatTime(timeLeft)}
           </h1>
           
-          <div className="absolute left-0 right-0 -bottom-8 px-8 md:px-16">
-            <div className="h-4 w-full bg-[#111] border border-[#222] overflow-hidden">
+          <div className="absolute left-0 right-0 -bottom-8 px-6 md:px-16">
+            <div className="h-3 w-full bg-[#111] border border-[#222]/50 overflow-hidden">
               <motion.div 
                 animate={{ width: `${progress}%` }}
                 className={cn(
@@ -121,43 +121,45 @@ export default function FocusMode() {
           </div>
         </div>
 
-        <div className="flex items-center justify-center gap-10">
+        <div className="flex items-center justify-center gap-6 md:gap-10">
           <button 
             onClick={resetTimer}
-            className="p-6 bg-[#0A0A0A] border border-[#222] text-[#444] hover:text-white hover:border-white transition-all active:scale-95 italic font-black uppercase tracking-widest text-[10px]"
+            className="w-16 h-16 md:w-20 md:h-20 bg-[#0A0A0A] border border-[#222] text-[#444] hover:text-white hover:border-white transition-all active:scale-95 flex items-center justify-center"
           >
-            <RotateCcw size={32} />
+            <RotateCcw size={24} />
           </button>
           
           <button 
             onClick={toggleTimer}
             className={cn(
-              "w-32 h-32 flex items-center justify-center transition-all active:scale-90 border-2",
+              "w-28 h-28 md:w-40 md:h-40 flex items-center justify-center transition-all active:scale-90 border-2 rounded-full",
               isActive 
                 ? "bg-transparent border-white text-white hover:bg-white hover:text-black" 
                 : "bg-white border-white text-black hover:bg-[#DDD]"
             )}
           >
-            {isActive ? <Pause size={56} fill="currentColor" strokeWidth={0} /> : <Play size={56} fill="currentColor" strokeWidth={0} className="ml-2" />}
+            {isActive ? <Pause size={48} className="md:size-64" fill="currentColor" strokeWidth={0} /> : <Play size={48} className="md:size-64 ml-2" fill="currentColor" strokeWidth={0} />}
           </button>
-
-          <button className="p-6 bg-[#0A0A0A] border border-[#222] text-[#444] hover:text-white transition-all active:scale-95 cursor-not-allowed opacity-20">
-            <Settings size={32} />
+          
+          <button className="w-16 h-16 md:w-20 md:h-20 bg-[#0A0A0A] border border-[#222] text-[#444] hover:text-white transition-all active:scale-95 cursor-not-allowed opacity-20 flex items-center justify-center">
+            <Settings size={24} />
           </button>
         </div>
 
-        <div className="mt-24 grid grid-cols-2 gap-8 max-w-lg mx-auto">
-          <div className="text-center group border border-[#222] p-10 bg-[#0A0A0A] relative overflow-hidden">
+        <div className="mt-16 md:mt-24 grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-8 max-w-xl mx-auto px-4">
+          <div className="text-center group border border-[#222] p-8 md:p-10 bg-[#0A0A0A] relative overflow-hidden flex flex-col items-center justify-center">
             <p className="text-[10px] uppercase font-mono tracking-[0.3em] text-[#555] mb-4 italic font-black">Cycles Logged</p>
-            <h4 className="text-5xl font-black italic uppercase tracking-tighter">{sessionsCompleted}</h4>
-            <div className="absolute -bottom-4 -left-4 opacity-[0.03] pointer-events-none">
+            <h4 className="text-5xl md:text-6xl font-display font-black italic uppercase tracking-tighter">{sessionsCompleted}</h4>
+            <div className="absolute -bottom-4 -left-4 opacity-[0.03] pointer-events-none group-hover:opacity-10 transition-opacity">
               <Target size={80} />
             </div>
           </div>
-          <div className="text-center group border border-[#222] p-10 bg-[#0A0A0A] relative overflow-hidden">
+          <div className="text-center group border border-[#222] p-8 md:p-10 bg-[#0A0A0A] relative overflow-hidden flex flex-col items-center justify-center">
             <p className="text-[10px] uppercase font-mono tracking-[0.3em] text-[#555] mb-4 italic font-black">Focus Duration</p>
-            <h4 className="text-5xl font-black italic uppercase tracking-tighter font-mono">{Math.floor((sessionsCompleted * 25) / 60)}H {(sessionsCompleted * 25) % 60}M</h4>
-            <div className="absolute -bottom-4 -right-4 opacity-[0.03] pointer-events-none">
+            <h4 className="text-3xl md:text-4xl font-display font-black italic uppercase tracking-tighter tabular-nums">
+              {Math.floor((sessionsCompleted * 25) / 60)}H {(sessionsCompleted * 25) % 60}M
+            </h4>
+            <div className="absolute -bottom-4 -right-4 opacity-[0.03] pointer-events-none group-hover:opacity-10 transition-opacity">
               <TimerIcon size={80} />
             </div>
           </div>

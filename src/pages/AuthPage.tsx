@@ -67,78 +67,97 @@ export default function AuthPage({ type }: AuthPageProps) {
   };
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white flex items-center justify-center p-4 font-sans">
+    <div className="min-h-screen bg-[#050505] text-white flex items-center justify-center p-6 font-sans relative overflow-hidden">
+      {/* Decorative background accent */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white opacity-[0.02] blur-[100px] rounded-full translate-x-1/2 -translate-y-1/2" />
+      
       <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-md bg-[#141414] border border-[#262626] rounded-2xl overflow-hidden shadow-2xl"
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="w-full max-w-xl bg-[#0A0A0A] border border-[#222] p-8 md:p-16 relative z-10"
       >
-        <div className="p-8">
-          <div className="flex flex-col items-center mb-8">
-            <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center mb-4 text-[#0A0A0A]">
-              <Target size={28} strokeWidth={2.5} />
+        <div className="mb-12">
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-10 h-10 bg-white flex items-center justify-center text-black">
+              <Target size={24} />
             </div>
-            <h1 className="text-2xl font-bold tracking-tight">LockIn</h1>
-            <p className="text-gray-400 text-sm mt-1">
-              {type === 'login' ? 'Continue your journey' : 'Start your discipline journey'}
-            </p>
+            <h1 className="text-4xl font-display font-black italic uppercase tracking-tighter">LockIn</h1>
           </div>
+          <h2 className="text-2xl md:text-3xl font-display font-black uppercase italic tracking-tighter">
+            {type === 'login' ? '// AUTHENTICATE_USER' : '// INITIALIZE_DISCIPLINE'}
+          </h2>
+          <p className="text-[#666] font-mono text-[10px] mt-4 uppercase tracking-[0.2em] font-black italic leading-relaxed">
+            {type === 'login' 
+              ? "Establish connection to previously authorized neural profile." 
+              : "Register new operative for systematic cognitive optimization."}
+          </p>
+        </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {type === 'signup' && (
-              <div className="space-y-1.5">
-                <label className="text-xs font-medium text-gray-400 uppercase tracking-wider flex items-center gap-2">
-                  <UserIcon size={12} /> Full Name
-                </label>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {type === 'signup' && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <label className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#444] italic font-black">Operator Name</label>
                 <input
                   type="text"
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full bg-[#1A1A1A] border border-[#262626] rounded-lg px-4 py-3 focus:outline-none focus:border-white transition-colors"
-                  placeholder="John Doe"
+                  className="w-full bg-[#050505] border border-[#222] px-4 py-3 focus:outline-none focus:border-white transition-all text-sm font-black uppercase italic"
+                  placeholder="NAME_REQUIRED"
                 />
               </div>
-            )}
-
-            <div className="space-y-1.5">
-              <label className="text-xs font-medium text-gray-400 uppercase tracking-wider flex items-center gap-2">
-                <Mail size={12} /> Email Address
-              </label>
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-[#1A1A1A] border border-[#262626] rounded-lg px-4 py-3 focus:outline-none focus:border-white transition-colors"
-                placeholder="email@example.com"
-              />
+              <div className="space-y-2">
+                <label className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#444] italic font-black">Email Identifier</label>
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full bg-[#050505] border border-[#222] px-4 py-3 focus:outline-none focus:border-white transition-all text-sm font-black uppercase italic"
+                  placeholder="EMAIL@LOCKIN.DEV"
+                />
+              </div>
             </div>
+          )}
 
-            <div className="space-y-1.5">
-              <label className="text-xs font-medium text-gray-400 uppercase tracking-wider flex items-center gap-2">
-                <Lock size={12} /> Password
-              </label>
-              <input
-                type="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-[#1A1A1A] border border-[#262626] rounded-lg px-4 py-3 focus:outline-none focus:border-white transition-colors"
-                placeholder="••••••••"
-              />
+          {type === 'login' && (
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <label className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#444] italic font-black">Email Identifier</label>
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full bg-[#050505] border border-[#222] px-4 py-4 focus:outline-none focus:border-white transition-all text-sm font-black uppercase italic"
+                  placeholder="EMAIL@LOCKIN.DEV"
+                />
+              </div>
             </div>
+          )}
 
-            {type === 'signup' && (
-              <>
-                <div className="space-y-1.5">
-                  <label className="text-xs font-medium text-gray-400 uppercase tracking-wider flex items-center gap-2">
-                    <GraduationCap size={12} /> Academic Level
-                  </label>
+          <div className="space-y-2">
+            <label className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#444] italic font-black">Access Cipher</label>
+            <input
+              type="password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full bg-[#050505] border border-[#222] px-4 py-4 focus:outline-none focus:border-white transition-all text-sm font-black uppercase italic tracking-widest"
+              placeholder="••••••••"
+            />
+          </div>
+
+          {type === 'signup' && (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#444] italic font-black">Academic Tier</label>
                   <select
                     value={academicLevel}
                     onChange={(e) => setAcademicLevel(e.target.value as AcademicLevel)}
-                    className="w-full bg-[#1A1A1A] border border-[#262626] rounded-lg px-4 py-3 focus:outline-none focus:border-white transition-colors appearance-none"
+                    className="w-full bg-[#050505] border border-[#222] px-4 py-3 focus:outline-none focus:border-white transition-all text-xs font-black uppercase italic"
                   >
                     <option value="secondary school">Secondary School</option>
                     <option value="undergraduate">Undergraduate</option>
@@ -146,52 +165,54 @@ export default function AuthPage({ type }: AuthPageProps) {
                     <option value="other">Other</option>
                   </select>
                 </div>
-
-                <div className="space-y-1.5">
-                  <label className="text-xs font-medium text-gray-400 uppercase tracking-wider flex items-center gap-2">
-                    <BookOpen size={12} /> Field of Study
-                  </label>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#444] italic font-black">Operational Sector</label>
                   <input
                     type="text"
                     required
                     value={fieldOfStudy}
                     onChange={(e) => setFieldOfStudy(e.target.value)}
-                    className="w-full bg-[#1A1A1A] border border-[#262626] rounded-lg px-4 py-3 focus:outline-none focus:border-white transition-colors"
-                    placeholder="e.g. Computer Science"
+                    className="w-full bg-[#050505] border border-[#222] px-4 py-3 focus:outline-none focus:border-white transition-all text-sm font-black uppercase italic"
+                    placeholder="E.G. QUANTUM_PHYSICS"
                   />
                 </div>
-              </>
-            )}
-
-            {error && (
-              <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-lg flex items-center gap-2 text-red-500 text-sm">
-                <AlertCircle size={16} />
-                <span>{error}</span>
               </div>
-            )}
+            </>
+          )}
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-white text-black font-bold py-4 rounded-xl hover:bg-gray-200 transition-colors disabled:opacity-50 mt-4 flex items-center justify-center gap-2"
-            >
-              {loading ? 'Processing...' : type === 'login' ? 'Lock In' : 'Join the Discipline'}
-            </button>
-          </form>
+          {error && (
+            <div className="p-4 bg-red-500/10 border border-red-500/20 flex items-center gap-3 text-red-500 text-[10px] font-mono uppercase tracking-[0.2em] font-black italic">
+              <AlertCircle size={14} />
+              <span>{error}</span>
+            </div>
+          )}
 
-          <p className="mt-8 text-center text-sm text-gray-500">
-            {type === 'login' ? (
-              <>
-                New here?{' '}
-                <Link to="/signup" className="text-white hover:underline">Create an account</Link>
-              </>
-            ) : (
-              <>
-                Already have an account?{' '}
-                <Link to="/login" className="text-white hover:underline">Log in here</Link>
-              </>
-            )}
-          </p>
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-white text-black font-display font-black py-5 uppercase tracking-[0.3em] hover:bg-[#DDD] transition-all disabled:opacity-50 mt-6 italic text-sm active:scale-[0.98]"
+          >
+            {loading ? 'SYNCING_DATA...' : type === 'login' ? 'ESTABLISH_LOCK' : 'INITIALIZE_DISCIPLINE'}
+          </button>
+        </form>
+
+        <p className="mt-12 text-center text-[10px] font-mono uppercase tracking-[0.3em] text-[#444] font-black italic">
+          {type === 'login' ? (
+            <span className="flex flex-col md:flex-row items-center justify-center gap-2">
+              No operative profile?
+              <Link to="/signup" className="text-white hover:underline underline-offset-4 decoration-white/20 ml-1">Register Operative</Link>
+            </span>
+          ) : (
+            <span className="flex flex-col md:flex-row items-center justify-center gap-2">
+              Operative profile exists?
+              <Link to="/login" className="text-white hover:underline underline-offset-4 decoration-white/20 ml-1">Re-authenticate</Link>
+            </span>
+          )}
+        </p>
+
+        {/* Decorative background text */}
+        <div className="absolute -bottom-8 -right-8 opacity-[0.03] pointer-events-none select-none">
+          <span className="text-[120px] font-display font-black italic uppercase tracking-tighter leading-none">LOCK</span>
         </div>
       </motion.div>
     </div>

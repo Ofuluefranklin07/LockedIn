@@ -97,59 +97,60 @@ export default function Goals() {
   }
 
   return (
-    <div className="space-y-8">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-black uppercase tracking-tight">Objectives</h1>
-          <p className="text-gray-400 text-sm mt-1">Define what you're locking in for.</p>
+    <div className="space-y-12">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 mb-12">
+        <div className="space-y-4">
+          <h1 className="text-[52px] sm:text-[70px] md:text-[80px] lg:text-[100px] font-display font-black italic uppercase leading-[0.85] tracking-tighter">Tactical</h1>
+          <h1 className="text-[52px] sm:text-[70px] md:text-[80px] lg:text-[100px] font-display font-black italic uppercase leading-[0.85] tracking-tighter translate-x-2 md:translate-x-4">Map</h1>
+          <p className="mt-8 text-[#666] font-mono text-[9px] md:text-[10px] uppercase tracking-[0.3em] font-medium italic">
+            // STATUS: MONITORING_ALL_ACTIVE_MISSIONS
+          </p>
         </div>
         <button 
           onClick={() => setIsModalOpen(true)}
-          className="bg-white text-black px-8 py-3 font-black uppercase tracking-widest text-sm flex items-center gap-2 hover:bg-[#DDD] transition-all italic"
+          className="bg-white text-black w-full md:w-auto px-10 py-5 font-display font-black uppercase tracking-[0.2em] hover:bg-[#DDD] transition-all italic text-sm active:scale-[0.98]"
         >
-          <Plus size={20} /> New Goal
+          <Plus size={20} className="inline mr-2" /> New Objective
         </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
         {goals.map((goal) => (
           <Link 
             key={goal.id} 
             to={`/goals/${goal.id}`}
-            className="group block bg-[#0A0A0A] border border-[#222] p-10 hover:border-white transition-all relative overflow-hidden"
+            className="group block bg-[#0A0A0A] border border-[#222] p-8 md:p-10 hover:border-white transition-all relative overflow-hidden active:scale-[0.99]"
           >
-            <div className="flex justify-between mb-8">
-              <div className="flex items-center gap-2">
+            <div className="flex justify-between items-start mb-10">
+              <div className="flex flex-wrap items-center gap-2">
                 <span className={cn(
-                  "text-[10px] uppercase font-mono tracking-widest px-2 py-0.5",
+                  "text-[9px] uppercase font-mono tracking-[0.2em] px-2 py-0.5 font-black italic",
                   goal.priority === 'high' ? "bg-red-500/10 text-red-500 border border-red-500/20" :
                   goal.priority === 'medium' ? "bg-yellow-500/10 text-yellow-500 border border-yellow-500/20" :
                   "bg-blue-500/10 text-blue-500 border border-blue-500/20"
                 )}>
                   {goal.priority}
                 </span>
-                <span className="text-[10px] uppercase font-mono tracking-widest px-2 py-0.5 bg-[#222] text-gray-400">
+                <span className="text-[9px] uppercase font-mono tracking-[0.2em] px-2 py-0.5 bg-[#111] text-[#666] border border-[#222] font-black italic">
                   {goal.category}
                 </span>
               </div>
               <button 
                 onClick={(e) => handleDeleteGoal(goal.id, e)}
-                className="text-[#333] hover:text-red-500 transition-colors"
+                className="text-[#222] hover:text-red-500 transition-colors p-2"
               >
                 <Trash2 size={20} />
               </button>
             </div>
             
-            <h3 className="text-3xl font-black mb-6 group-hover:text-white uppercase italic tracking-tighter leading-none">{goal.title}</h3>
+            <h3 className="text-3xl md:text-4xl font-display font-black mb-8 group-hover:text-white uppercase italic tracking-tighter leading-none transition-colors">{goal.title}</h3>
             
-            <div className="flex items-center gap-4 text-[10px] text-gray-500 font-mono tracking-[0.2em] uppercase">
-              <div className="flex items-center gap-1.5">
-                <Calendar size={14} className="text-gray-400" /> Deadline: {formatDate(goal.deadline)}
-              </div>
+            <div className="flex items-center gap-4 text-[10px] text-[#444] font-mono tracking-[0.2em] uppercase font-black italic">
+              <Calendar size={14} className="opacity-40" /> Terminal: {formatDate(goal.deadline)}
             </div>
 
-            <div className="absolute -bottom-4 -right-4 pointer-events-none opacity-[0.03]">
-              <Target size={120} />
+            <div className="absolute -bottom-6 -right-6 pointer-events-none opacity-[0.02] group-hover:opacity-10 transition-opacity">
+              <Target size={140} />
             </div>
           </Link>
         ))}

@@ -38,20 +38,33 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
-    console.log("Setting up onAuthStateChanged");
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      console.log("Auth state changed:", user ? `Logged in as ${user.email}` : "Not logged in");
-      setUser(user);
-      if (user) {
-        await fetchProfile(user.uid);
-      } else {
-        setProfile(null);
+    // Safety timeout: if auth hasn't initialized in 8 seconds, force stop loading
+    const safetyTimeout = setTimeout(() => {
+      if (loading) {
+        setLoading(false);
       }
-      setLoading(false);
-      console.log("Auth initialization complete");
+    }, 8000);
+
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      try {
+        setUser(user);
+        if (user) {
+          await fetchProfile(user.uid);
+        } else {
+          setProfile(null);
+        }
+      } catch (err) {
+        console.error("Auth state change error:", err);
+      } finally {
+        setLoading(false);
+        clearTimeout(safetyTimeout);
+      }
     });
 
-    return unsubscribe;
+    return () => {
+      unsubscribe();
+      clearTimeout(safetyTimeout);
+    };
   }, []);
 
   const signOut = async () => {

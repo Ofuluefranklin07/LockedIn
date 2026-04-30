@@ -1,35 +1,40 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
 
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Outfit", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 }
 
 @layer base {
   body {
-    @apply bg-[#050505] text-[#F5F5F5] selection:bg-[#F97316] selection:text-white;
+    @apply bg-[#050505] text-[#F5F5F5] selection:bg-[#F97316] selection:text-white font-sans antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
   }
 }
 
 @layer components {
   .btn-primary {
-    @apply w-full py-4 border border-[#F5F5F5] hover:bg-[#F5F5F5] hover:text-[#050505] text-xs font-bold uppercase tracking-widest transition-colors;
+    @apply w-full py-4 border border-[#F5F5F5] hover:bg-[#F5F5F5] hover:text-[#050505] text-xs font-black uppercase tracking-[0.25em] transition-all duration-300 active:scale-[0.98];
   }
   
   .card-bordered {
-    @apply border border-[#222] bg-[#0A0A0A] p-6;
+    @apply border border-[#222] bg-[#0A0A0A] p-6 md:p-8 hover:border-[#333] transition-colors;
   }
   
   .label-mono {
-    @apply text-[10px] font-mono uppercase tracking-[0.2em] text-[#888] italic;
+    @apply text-[10px] font-mono uppercase tracking-[0.3em] text-[#666] italic font-medium;
   }
 }
 
 .markdown-body h1, .markdown-body h2, .markdown-body h3 {
-  @apply font-black uppercase italic tracking-tighter;
+  @apply font-display font-black uppercase italic tracking-tighter;
 }
 
 .markdown-body p {
-  @apply text-[#CCC] leading-relaxed italic;
+  @apply text-[#AAA] leading-relaxed italic;
 }
