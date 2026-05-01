@@ -81,12 +81,12 @@ export default function AuthPage({ type }: AuthPageProps) {
             <div className="w-10 h-10 bg-white flex items-center justify-center text-black">
               <Target size={24} />
             </div>
-            <h1 className="text-4xl font-display font-black italic uppercase tracking-tighter">LockIn</h1>
+            <h1 className="text-4xl font-display font-bold uppercase tracking-tight">LockIn</h1>
           </div>
-          <h2 className="text-2xl md:text-3xl font-display font-black uppercase italic tracking-tighter">
+          <h2 className="text-2xl md:text-3xl font-display font-bold uppercase tracking-tight">
             {type === 'login' ? '// AUTHENTICATE_USER' : '// INITIALIZE_DISCIPLINE'}
           </h2>
-          <p className="text-[#666] font-mono text-[10px] mt-4 uppercase tracking-[0.2em] font-black italic leading-relaxed">
+          <p className="text-[#666] font-mono text-[10px] mt-4 uppercase tracking-[0.15em] font-medium leading-relaxed opacity-60">
             {type === 'login' 
               ? "Establish connection to previously authorized neural profile." 
               : "Register new operative for systematic cognitive optimization."}
@@ -97,24 +97,24 @@ export default function AuthPage({ type }: AuthPageProps) {
           {type === 'signup' && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <label className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#444] italic font-black">Operator Name</label>
+                <label className="text-[10px] font-mono uppercase tracking-[0.2em] text-[#444] font-semibold">Operator Name</label>
                 <input
                   type="text"
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full bg-[#050505] border border-[#222] px-4 py-3 focus:outline-none focus:border-white transition-all text-sm font-black uppercase italic"
+                  className="w-full bg-[#050505] border border-[#222] px-4 py-3 focus:outline-none focus:border-white transition-all text-sm font-semibold uppercase"
                   placeholder="NAME_REQUIRED"
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#444] italic font-black">Email Identifier</label>
+                <label className="text-[10px] font-mono uppercase tracking-[0.2em] text-[#444] font-semibold">Email Identifier</label>
                 <input
                   type="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-[#050505] border border-[#222] px-4 py-3 focus:outline-none focus:border-white transition-all text-sm font-black uppercase italic"
+                  className="w-full bg-[#050505] border border-[#222] px-4 py-3 focus:outline-none focus:border-white transition-all text-sm font-semibold uppercase"
                   placeholder="EMAIL@LOCKIN.DEV"
                 />
               </div>
@@ -124,13 +124,13 @@ export default function AuthPage({ type }: AuthPageProps) {
           {type === 'login' && (
             <div className="space-y-6">
               <div className="space-y-2">
-                <label className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#444] italic font-black">Email Identifier</label>
+                <label className="text-[10px] font-mono uppercase tracking-[0.2em] text-[#444] font-semibold">Email Identifier</label>
                 <input
                   type="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-[#050505] border border-[#222] px-4 py-4 focus:outline-none focus:border-white transition-all text-sm font-black uppercase italic"
+                  className="w-full bg-[#050505] border border-[#222] px-4 py-4 focus:outline-none focus:border-white transition-all text-sm font-semibold uppercase"
                   placeholder="EMAIL@LOCKIN.DEV"
                 />
               </div>
@@ -138,13 +138,13 @@ export default function AuthPage({ type }: AuthPageProps) {
           )}
 
           <div className="space-y-2">
-            <label className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#444] italic font-black">Access Cipher</label>
+            <label className="text-[10px] font-mono uppercase tracking-[0.2em] text-[#444] font-semibold">Access Cipher</label>
             <input
               type="password"
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-[#050505] border border-[#222] px-4 py-4 focus:outline-none focus:border-white transition-all text-sm font-black uppercase italic tracking-widest"
+              className="w-full bg-[#050505] border border-[#222] px-4 py-4 focus:outline-none focus:border-white transition-all text-sm font-semibold uppercase tracking-widest"
               placeholder="••••••••"
             />
           </div>
@@ -153,11 +153,11 @@ export default function AuthPage({ type }: AuthPageProps) {
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#444] italic font-black">Academic Tier</label>
+                  <label className="text-[10px] font-mono uppercase tracking-[0.2em] text-[#444] font-semibold">Academic Tier</label>
                   <select
                     value={academicLevel}
                     onChange={(e) => setAcademicLevel(e.target.value as AcademicLevel)}
-                    className="w-full bg-[#050505] border border-[#222] px-4 py-3 focus:outline-none focus:border-white transition-all text-xs font-black uppercase italic"
+                    className="w-full bg-[#050505] border border-[#222] px-4 py-3 focus:outline-none focus:border-white transition-all text-xs font-semibold uppercase"
                   >
                     <option value="secondary school">Secondary School</option>
                     <option value="undergraduate">Undergraduate</option>
@@ -166,13 +166,13 @@ export default function AuthPage({ type }: AuthPageProps) {
                   </select>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#444] italic font-black">Operational Sector</label>
+                  <label className="text-[10px] font-mono uppercase tracking-[0.2em] text-[#444] font-semibold">Operational Sector</label>
                   <input
                     type="text"
                     required
                     value={fieldOfStudy}
                     onChange={(e) => setFieldOfStudy(e.target.value)}
-                    className="w-full bg-[#050505] border border-[#222] px-4 py-3 focus:outline-none focus:border-white transition-all text-sm font-black uppercase italic"
+                    className="w-full bg-[#050505] border border-[#222] px-4 py-3 focus:outline-none focus:border-white transition-all text-sm font-semibold uppercase"
                     placeholder="E.G. QUANTUM_PHYSICS"
                   />
                 </div>
@@ -181,7 +181,7 @@ export default function AuthPage({ type }: AuthPageProps) {
           )}
 
           {error && (
-            <div className="p-4 bg-red-500/10 border border-red-500/20 flex items-center gap-3 text-red-500 text-[10px] font-mono uppercase tracking-[0.2em] font-black italic">
+            <div className="p-4 bg-red-500/10 border border-red-500/20 flex items-center gap-3 text-red-500 text-[10px] font-mono uppercase tracking-[0.15em] font-semibold">
               <AlertCircle size={14} />
               <span>{error}</span>
             </div>
@@ -190,13 +190,13 @@ export default function AuthPage({ type }: AuthPageProps) {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-white text-black font-display font-black py-5 uppercase tracking-[0.3em] hover:bg-[#DDD] transition-all disabled:opacity-50 mt-6 italic text-sm active:scale-[0.98]"
+            className="w-full bg-white text-black font-display font-bold py-5 uppercase tracking-[0.2em] hover:bg-[#DDD] transition-all disabled:opacity-50 mt-6 text-sm active:scale-[0.98]"
           >
             {loading ? 'SYNCING_DATA...' : type === 'login' ? 'ESTABLISH_LOCK' : 'INITIALIZE_DISCIPLINE'}
           </button>
         </form>
 
-        <p className="mt-12 text-center text-[10px] font-mono uppercase tracking-[0.3em] text-[#444] font-black italic">
+        <p className="mt-12 text-center text-[10px] font-mono uppercase tracking-[0.2em] text-[#444] font-semibold">
           {type === 'login' ? (
             <span className="flex flex-col md:flex-row items-center justify-center gap-2">
               No operative profile?

@@ -163,15 +163,15 @@ export default function Dashboard() {
       {/* Header Section */}
       <section className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-[#222] pb-10 md:pb-16">
         <div className="relative">
-          <h1 className="text-[52px] sm:text-[70px] md:text-[80px] lg:text-[100px] font-display font-black italic uppercase leading-[0.85] tracking-tighter">Command</h1>
-          <h1 className="text-[52px] sm:text-[70px] md:text-[80px] lg:text-[100px] font-display font-black italic uppercase leading-[0.85] tracking-tighter translate-x-2 md:translate-x-4">Center</h1>
-          <p className="mt-8 text-[#666] font-mono text-[9px] md:text-[10px] uppercase tracking-[0.3em] font-medium italic">
-            // OPERATOR: {profile?.name} <span className="mx-2 opacity-20">|</span> {profile?.academicLevel} <span className="mx-2 opacity-20">|</span> {profile?.fieldOfStudy}
-          </p>
+            <h1 className="text-[52px] sm:text-[70px] md:text-[80px] lg:text-[100px] font-display font-bold uppercase leading-[0.85] tracking-tight">Command</h1>
+            <h1 className="text-[52px] sm:text-[70px] md:text-[80px] lg:text-[100px] font-display font-bold uppercase leading-[0.85] tracking-tight translate-x-2 md:translate-x-4">Center</h1>
+            <p className="mt-8 text-[#666] font-mono text-[9px] md:text-[10px] uppercase tracking-[0.2em] font-medium opacity-60">
+              // OPERATOR: {profile?.name} <span className="mx-2 opacity-20">|</span> {profile?.academicLevel} <span className="mx-2 opacity-20">|</span> {profile?.fieldOfStudy}
+            </p>
         </div>
         <button 
           onClick={() => setShowLogModal(true)}
-          className="bg-[#F5F5F5] text-[#050505] w-full md:w-auto px-10 py-5 font-display font-black uppercase tracking-[0.2em] hover:bg-white transition-all italic text-sm shadow-[0_0_30px_rgba(255,255,255,0.05)] active:scale-[0.98]"
+          className="bg-[#F5F5F5] text-[#050505] w-full md:w-auto px-10 py-5 font-display font-bold uppercase tracking-[0.15em] hover:bg-white transition-all text-sm shadow-[0_0_30px_rgba(255,255,255,0.05)] active:scale-[0.98]"
         >
           Deploy Log
         </button>
@@ -181,34 +181,34 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         <div className="border border-[#222] bg-[#0A0A0A] p-6 md:p-8 relative overflow-hidden group">
           <div className="relative z-10">
-            <p className="text-[10px] font-mono uppercase text-[#555] tracking-[0.3em] mb-4 italic font-black">Operational Streak</p>
-            <h3 className="text-5xl md:text-6xl font-display font-black italic text-[#F97316] tracking-tighter">{profile?.currentStreak || 0}</h3>
-            <p className="text-[9px] font-mono text-[#444] mt-4 uppercase tracking-[0.2em] font-black italic">{streakStatus()}</p>
+            <p className="text-[10px] font-mono uppercase text-[#444] tracking-[0.2em] mb-4 font-semibold">Operational Streak</p>
+            <h3 className="text-5xl md:text-6xl font-display font-bold text-[#F97316] tracking-tighter">{profile?.currentStreak || 0}</h3>
+            <p className="text-[9px] font-mono text-[#333] mt-4 uppercase tracking-[0.15em] font-semibold">{streakStatus()}</p>
           </div>
           <Flame className="absolute -bottom-6 -right-6 text-[#F97316]/5 rotate-12 transition-transform group-hover:scale-110" size={140} fill="currentColor" />
         </div>
 
         <div className="border border-[#222] bg-[#0A0A0A] p-6 md:p-8">
-          <p className="text-[10px] font-mono uppercase text-[#555] tracking-[0.3em] mb-4 italic font-black">Weekly Intensity</p>
-          <h3 className="text-5xl md:text-6xl font-display font-black italic tracking-tighter">
+          <p className="text-[10px] font-mono uppercase text-[#444] tracking-[0.2em] mb-4 font-semibold">Weekly Intensity</p>
+          <h3 className="text-5xl md:text-6xl font-display font-bold tracking-tighter">
             {recentLogs.reduce((acc, curr) => acc + curr.hoursStudied, 0).toFixed(1)}
             <span className="text-xl ml-2 font-mono uppercase tracking-normal opacity-40">H</span>
           </h3>
-          <p className="text-[9px] font-mono text-[#444] mt-4 uppercase tracking-[0.2em] font-black italic">Total Study Hours</p>
+          <p className="text-[9px] font-mono text-[#333] mt-4 uppercase tracking-[0.15em] font-semibold">Total Study Hours</p>
         </div>
 
         <div className="border border-[#222] bg-[#0A0A0A] p-6 md:p-8">
-          <p className="text-[10px] font-mono uppercase text-[#555] tracking-[0.3em] mb-4 italic font-black">Active Objectives</p>
-          <h3 className="text-5xl md:text-6xl font-display font-black italic tracking-tighter">{goals.length}</h3>
-          <p className="text-[9px] font-mono text-[#444] mt-4 uppercase tracking-[0.2em] font-black italic">Ongoing Missions</p>
+          <p className="text-[10px] font-mono uppercase text-[#444] tracking-[0.2em] mb-4 font-semibold">Active Objectives</p>
+          <h3 className="text-5xl md:text-6xl font-display font-bold tracking-tighter">{goals.length}</h3>
+          <p className="text-[9px] font-mono text-[#333] mt-4 uppercase tracking-[0.15em] font-semibold">Ongoing Missions</p>
         </div>
 
         <div className="border border-[#222] bg-[#0A0A0A] p-6 md:p-8">
-          <p className="text-[10px] font-mono uppercase text-[#555] tracking-[0.3em] mb-4 italic font-black">Cognitive Load</p>
-          <h3 className="text-5xl md:text-6xl font-display font-black italic tracking-tighter">
+          <p className="text-[10px] font-mono uppercase text-[#444] tracking-[0.2em] mb-4 font-semibold">Cognitive Load</p>
+          <h3 className="text-5xl md:text-6xl font-display font-bold tracking-tighter">
             {(recentLogs.reduce((acc, curr) => acc + curr.focusLevel, 0) / (recentLogs.length || 1)).toFixed(1)}
           </h3>
-          <p className="text-[9px] font-mono text-[#444] mt-4 uppercase tracking-[0.2em] font-black italic">Avg Focus Intensity</p>
+          <p className="text-[9px] font-mono text-[#333] mt-4 uppercase tracking-[0.15em] font-semibold">Avg Focus Intensity</p>
         </div>
       </div>
 

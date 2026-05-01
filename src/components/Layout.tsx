@@ -39,10 +39,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <div className="md:hidden flex items-center justify-between p-5 border-b border-[#1A1A1A] bg-[#050505] sticky top-0 z-50">
         <div className="flex items-center gap-2">
           <Target className="text-white" size={20} />
-          <h1 className="font-display font-black text-xl uppercase italic tracking-tighter">LockIn</h1>
+          <h1 className="font-display font-bold text-xl uppercase tracking-tight">LockIn</h1>
         </div>
         <div className="flex items-center gap-4">
-          <div className="flex items-center gap-1 text-[10px] text-[#F97316] font-mono font-black border border-[#F97316]/20 px-2 py-0.5 bg-[#F97316]/5">
+          <div className="flex items-center gap-1 text-[10px] text-[#F97316] font-mono font-semibold border border-[#F97316]/20 px-2 py-0.5 bg-[#F97316]/5">
             <Flame size={10} fill="currentColor" />
             {profile?.currentStreak || 0}
           </div>
@@ -59,20 +59,19 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             key={item.path}
             to={item.path}
             className={({ isActive }) => cn(
-              "flex flex-col items-center gap-1 flex-1 py-1 transition-all",
+              "flex flex-col items-center gap-1 flex-1 py-1 transition-all relative",
               isActive ? "text-white" : "text-[#555]"
             )}
           >
             {({ isActive }) => (
               <>
                 <item.icon size={20} className={cn(isActive && "text-white")} />
-                <span className="text-[8px] font-black uppercase tracking-widest">{item.label}</span>
-                {/* Active Indicator Dot */}
+                <span className="text-[8px] font-semibold uppercase tracking-widest">{item.label}</span>
                 <AnimatePresence>
                   {isActive && (
                     <motion.div 
                       layoutId="mobileNavIndicator"
-                      className="w-1 h-1 bg-white rounded-full absolute bottom-1"
+                      className="w-1 h-1 bg-[#F97316] rounded-full absolute -bottom-1"
                     />
                   )}
                 </AnimatePresence>
@@ -91,13 +90,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <div className="flex items-center justify-between mb-8 md:mb-0">
             <div className="flex items-center gap-3">
               <Target className="text-white" size={32} />
-              <h1 className="text-4xl font-display font-black italic tracking-tighter uppercase leading-none">LockIn</h1>
+              <h1 className="text-4xl font-display font-bold uppercase tracking-tight leading-none">LockIn</h1>
             </div>
             <button onClick={() => setIsSidebarOpen(false)} className="md:hidden">
               <X size={24} className="text-[#444]" />
             </button>
           </div>
-          <p className="mt-4 text-[#666] font-mono text-[9px] uppercase tracking-[0.3em] leading-tight italic">
+          <p className="mt-4 text-[#666] font-mono text-[9px] uppercase tracking-[0.2em] leading-tight font-semibold opacity-60">
             // Operational Status: {profile ? 'LOCKED_IN' : 'STANDBY'}
           </p>
         </div>
@@ -118,7 +117,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               {({ isActive }) => (
                 <>
                   <item.icon size={18} className={cn("transition-transform group-hover:scale-110")} />
-                  <span className="font-display font-black uppercase text-[12px] tracking-[0.15em] italic">{item.label}</span>
+                  <span className="font-display font-bold uppercase text-[12px] tracking-[0.1em]">{item.label}</span>
                   {isActive && (
                     <motion.div 
                       layoutId="sidebarActive"
@@ -134,15 +133,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="p-6 mt-auto">
           <div className="p-8 mb-6 bg-[#0A0A0A] border border-[#222] relative overflow-hidden group">
             <div className="flex items-center gap-4 mb-4">
-              <div className="w-12 h-12 bg-white flex items-center justify-center text-black font-display font-black text-xl italic">
+              <div className="w-12 h-12 bg-white flex items-center justify-center text-black font-display font-bold text-xl">
                 {profile?.name?.charAt(0) || 'U'}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-[9px] font-mono uppercase text-[#444] tracking-[0.2em] mb-1 italic font-black">Authorized Personnel</p>
-                <p className="text-lg font-display font-black truncate uppercase italic tracking-tight">{profile?.name || 'User'}</p>
+                <p className="text-[9px] font-mono uppercase text-[#444] tracking-[0.2em] mb-1 font-bold opacity-60">Authorized Personnel</p>
+                <p className="text-lg font-display font-bold truncate uppercase tracking-tight">{profile?.name || 'User'}</p>
               </div>
             </div>
-            <div className="flex items-center gap-2 text-[10px] text-[#F97316] font-mono font-black uppercase tracking-[0.2em]">
+            <div className="flex items-center gap-2 text-[10px] text-[#F97316] font-mono font-bold uppercase tracking-[0.15em]">
               <Flame size={14} fill="currentColor" />
               {profile?.currentStreak || 0} DAY STREAK
             </div>
@@ -153,7 +152,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
           <button
             onClick={handleSignOut}
-            className="flex items-center justify-center gap-3 w-full py-4 text-[#444] hover:text-white hover:bg-red-500/10 border border-transparent hover:border-red-500/20 transition-all font-mono text-[10px] uppercase tracking-[0.3em] italic font-black"
+            className="flex items-center justify-center gap-3 w-full py-4 text-[#444] hover:text-white hover:bg-red-500/10 border border-transparent hover:border-red-500/20 transition-all font-mono text-[10px] uppercase tracking-[0.2em] font-bold"
           >
             <LogOut size={16} />
             <span>Terminate Session</span>

@@ -1,20 +1,51 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# LockIn - Command Center
 
-# Run and deploy your AI Studio app
+A high-intensity academic discipline and focus tracking system.
 
-This contains everything you need to run your app locally.
+## Local Setup
 
-View your app in AI Studio: https://ai.studio/apps/73aed890-a32f-4f5d-9418-34ff05eba280
+To run this project locally, follow these steps:
 
-## Run Locally
+### Prerequisites
 
-**Prerequisites:**  Node.js
+- **Node.js**: Ensure you have Node.js (v18 or higher) installed.
+- **npm**: Usually comes with Node.js.
 
+### 1. Clone the repository
+```bash
+git clone <your-repository-url>
+cd <project-directory>
+```
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+### 2. Install Dependencies
+
+Run the following command to install all necessary packages:
+
+```bash
+npm install
+```
+
+### 3. Environment Configuration
+
+Create a `.env` file in the root directory and add your environment variables (refer to `.env.example`). You will need:
+- `GEMINI_API_KEY`: For the AI Coach features.
+- Firebase configuration (already included in `firebase-applet-config.json`).
+
+### 4. Run Development Server
+
+```bash
+npm run dev
+```
+
+The app will be available at `http://localhost:3000`.
+
+## Key Packages Used
+
+- **React 19**: Frontend framework.
+- **Vite**: Build tool and dev server.
+- **Firebase**: Authentication and Firestore database.
+- **Tailwind CSS**: Styling.
+- **Motion (framer-motion)**: Animations and transitions.
+- **Lucide React**: Icon library.
+- **Google Generative AI SDK**: Powering the AI Coach.
+- **Recharts**: Data visualization for Analytics.

@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
 
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Outfit", sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 }
 
@@ -13,13 +13,13 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-display;
+    @apply font-display font-semibold tracking-tight;
   }
 }
 
 @layer components {
   .btn-primary {
-    @apply w-full py-4 border border-[#F5F5F5] hover:bg-[#F5F5F5] hover:text-[#050505] text-xs font-black uppercase tracking-[0.25em] transition-all duration-300 active:scale-[0.98];
+    @apply w-full py-4 border border-[#F5F5F5] hover:bg-[#F5F5F5] hover:text-[#050505] text-xs font-bold uppercase tracking-[0.2em] transition-all duration-300 active:scale-[0.98];
   }
   
   .card-bordered {
@@ -27,14 +27,14 @@
   }
   
   .label-mono {
-    @apply text-[10px] font-mono uppercase tracking-[0.3em] text-[#666] italic font-medium;
+    @apply text-[10px] font-mono uppercase tracking-[0.2em] text-[#666] font-semibold;
   }
 }
 
 .markdown-body h1, .markdown-body h2, .markdown-body h3 {
-  @apply font-display font-black uppercase italic tracking-tighter;
+  @apply font-display font-bold uppercase tracking-tight;
 }
 
 .markdown-body p {
-  @apply text-[#AAA] leading-relaxed italic;
+  @apply text-[#AAA] leading-relaxed;
 }
