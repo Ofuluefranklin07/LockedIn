@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { motion, AnimatePresence } from 'motion/react';
+import ThemeToggle from './ThemeToggle';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const { profile, signOut } = useAuth();
@@ -42,6 +43,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <h1 className="font-display font-bold text-xl uppercase tracking-tight">LockIn</h1>
         </div>
         <div className="flex items-center gap-4">
+          <ThemeToggle className="h-9 w-9" />
           <div className="flex items-center gap-1 text-[10px] text-[#F97316] font-mono font-semibold border border-[#F97316]/20 px-2 py-0.5 bg-[#F97316]/5">
             <Flame size={10} fill="currentColor" />
             {profile?.currentStreak || 0}
@@ -99,6 +101,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <p className="mt-4 text-[#666] font-mono text-[9px] uppercase tracking-[0.2em] leading-tight font-semibold opacity-60">
             // Operational Status: {profile ? 'LOCKED_IN' : 'STANDBY'}
           </p>
+          <ThemeToggle className="mt-6 hidden md:inline-flex" />
         </div>
 
         <nav className="flex-1 px-6 mt-4 space-y-3">

@@ -7,8 +7,9 @@ import {
 import { doc, setDoc } from 'firebase/firestore';
 import { auth, db } from '../lib/firebase';
 import { AcademicLevel } from '../types';
-import { Target, Lock, Mail, User as UserIcon, GraduationCap, BookOpen, AlertCircle } from 'lucide-react';
+import { Target, AlertCircle } from 'lucide-react';
 import { motion } from 'motion/react';
+import ThemeToggle from '../components/ThemeToggle';
 
 interface AuthPageProps {
   type: 'login' | 'signup';
@@ -68,6 +69,7 @@ export default function AuthPage({ type }: AuthPageProps) {
 
   return (
     <div className="min-h-screen bg-[#050505] text-white flex items-center justify-center p-6 font-sans relative overflow-hidden">
+      <ThemeToggle className="absolute right-6 top-6 z-20" />
       {/* Decorative background accent */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white opacity-[0.02] blur-[100px] rounded-full translate-x-1/2 -translate-y-1/2" />
       

@@ -7,13 +7,52 @@
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 }
 
+:root {
+  --color-bg: #050505;
+  --color-panel: #0A0A0A;
+  --color-panel-soft: #111111;
+  --color-elevated: #141414;
+  --color-text: #F5F5F5;
+  --color-text-strong: #FFFFFF;
+  --color-text-muted: #A3A3A3;
+  --color-text-subtle: #666666;
+  --color-line: #222222;
+  --color-line-strong: #333333;
+  --color-inverse-bg: #F5F5F5;
+  --color-inverse-text: #050505;
+  --color-accent: #F97316;
+}
+
+[data-theme="light"] {
+  --color-bg: #F5F5F5;
+  --color-panel: #FFFFFF;
+  --color-panel-soft: #EFEFEF;
+  --color-elevated: #FFFFFF;
+  --color-text: #171717;
+  --color-text-strong: #050505;
+  --color-text-muted: #525252;
+  --color-text-subtle: #737373;
+  --color-line: #D9D9D9;
+  --color-line-strong: #BDBDBD;
+  --color-inverse-bg: #050505;
+  --color-inverse-text: #F5F5F5;
+}
+
 @layer base {
   body {
     @apply bg-[#050505] text-[#F5F5F5] selection:bg-[#F97316] selection:text-white font-sans antialiased;
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    line-height: 1.65;
   }
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-display font-semibold tracking-tight;
+  }
+
+  input, select, textarea, button {
+    font: inherit;
   }
 }
 
@@ -37,4 +76,135 @@
 
 .markdown-body p {
   @apply text-[#AAA] leading-relaxed;
+}
+
+@layer utilities {
+  .font-black {
+    font-weight: 800;
+  }
+
+  .tracking-tighter {
+    letter-spacing: -0.025em;
+  }
+
+  .tracking-\[0\.2em\],
+  .tracking-\[0\.25em\],
+  .tracking-\[0\.3em\] {
+    letter-spacing: 0.14em;
+  }
+}
+
+h1.italic,
+h2.italic,
+h3.italic,
+h4.italic,
+h5.italic,
+h6.italic,
+p.italic,
+span.italic,
+label.italic,
+button.italic,
+input.italic,
+select.italic,
+.markdown-body .italic {
+  font-style: normal;
+}
+
+input,
+select,
+textarea {
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+button,
+a {
+  text-underline-offset: 4px;
+}
+
+.theme-toggle {
+  background: var(--color-panel);
+  border-color: var(--color-line);
+  color: var(--color-text-muted);
+}
+
+[data-theme="light"] .bg-\[\#050505\] {
+  background-color: var(--color-bg) !important;
+}
+
+[data-theme="light"] .bg-\[\#0A0A0A\],
+[data-theme="light"] .bg-\[\#0a0a0a\],
+[data-theme="light"] .bg-\[\#141414\] {
+  background-color: var(--color-panel) !important;
+}
+
+[data-theme="light"] .bg-\[\#111\] {
+  background-color: var(--color-panel-soft) !important;
+}
+
+[data-theme="light"] .bg-\[\#0F0804\] {
+  background-color: #FFF4EC !important;
+}
+
+[data-theme="light"] .bg-white,
+[data-theme="light"] .bg-\[\#F5F5F5\] {
+  background-color: var(--color-inverse-bg) !important;
+}
+
+[data-theme="light"] .text-white,
+[data-theme="light"] .text-\[\#F5F5F5\] {
+  color: var(--color-text-strong) !important;
+}
+
+[data-theme="light"] .text-black,
+[data-theme="light"] .text-\[\#050505\] {
+  color: var(--color-inverse-text) !important;
+}
+
+[data-theme="light"] .text-\[\#AAA\],
+[data-theme="light"] .text-\[\#888\],
+[data-theme="light"] .text-gray-300,
+[data-theme="light"] .text-gray-400,
+[data-theme="light"] .text-gray-500,
+[data-theme="light"] .text-gray-600 {
+  color: var(--color-text-muted) !important;
+}
+
+[data-theme="light"] .text-\[\#666\],
+[data-theme="light"] .text-\[\#555\],
+[data-theme="light"] .text-\[\#444\],
+[data-theme="light"] .text-\[\#333\],
+[data-theme="light"] .text-\[\#222\] {
+  color: var(--color-text-subtle) !important;
+}
+
+[data-theme="light"] .border-\[\#1A1A1A\],
+[data-theme="light"] .border-\[\#222\],
+[data-theme="light"] .border-\[\#262626\],
+[data-theme="light"] .border-\[\#333\] {
+  border-color: var(--color-line) !important;
+}
+
+[data-theme="light"] .border-white,
+[data-theme="light"] .border-\[\#F5F5F5\] {
+  border-color: var(--color-inverse-bg) !important;
+}
+
+[data-theme="light"] .hover\:text-white:hover,
+[data-theme="light"] .group:hover .group-hover\:text-white {
+  color: var(--color-text-strong) !important;
+}
+
+[data-theme="light"] .hover\:bg-\[\#111\]:hover,
+[data-theme="light"] .hover\:bg-gray-200:hover,
+[data-theme="light"] .hover\:bg-\[\#DDD\]:hover {
+  background-color: #E5E5E5 !important;
+}
+
+[data-theme="light"] .focus\:border-white:focus {
+  border-color: var(--color-text-strong) !important;
+}
+
+[data-theme="light"] .bg-black\/80 {
+  background-color: rgb(245 245 245 / 0.82) !important;
 }

@@ -8,6 +8,7 @@ import FocusMode from './pages/FocusMode';
 import Analytics from './pages/Analytics';
 import AICoach from './pages/AICoach';
 import AuthPage from './pages/AuthPage';
+import { ThemeProvider } from './hooks/useTheme';
 
 /**
  * @license
@@ -34,22 +35,24 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <Routes>
-          <Route path="/login" element={<AuthPage type="login" />} />
-          <Route path="/signup" element={<AuthPage type="signup" />} />
-          
-          <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-          <Route path="/goals" element={<ProtectedRoute><Goals /></ProtectedRoute>} />
-          <Route path="/goals/:id" element={<ProtectedRoute><GoalDetail /></ProtectedRoute>} />
-          <Route path="/focus" element={<ProtectedRoute><FocusMode /></ProtectedRoute>} />
-          <Route path="/analytics" element={<ProtectedRoute><Analytics /></ProtectedRoute>} />
-          <Route path="/coach" element={<ProtectedRoute><AICoach /></ProtectedRoute>} />
-          
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </Router>
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <Router>
+          <Routes>
+            <Route path="/login" element={<AuthPage type="login" />} />
+            <Route path="/signup" element={<AuthPage type="signup" />} />
+            
+            <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+            <Route path="/goals" element={<ProtectedRoute><Goals /></ProtectedRoute>} />
+            <Route path="/goals/:id" element={<ProtectedRoute><GoalDetail /></ProtectedRoute>} />
+            <Route path="/focus" element={<ProtectedRoute><FocusMode /></ProtectedRoute>} />
+            <Route path="/analytics" element={<ProtectedRoute><Analytics /></ProtectedRoute>} />
+            <Route path="/coach" element={<ProtectedRoute><AICoach /></ProtectedRoute>} />
+            
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </Router>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
