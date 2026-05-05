@@ -97,12 +97,12 @@ export default function FocusMode() {
           </div>
         </div>
 
-        <div className="relative mb-16 md:mb-24 px-4 h-40 md:h-64 flex items-center justify-center">
+        <div className="relative mb-16 md:mb-24 px-4 h-40 md:h-60 flex items-center justify-center">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none opacity-[0.03] scale-150 md:scale-100">
             <span className="text-[120px] md:text-[200px] font-display font-black italic uppercase tracking-tighter">FOCUS</span>
           </div>
           
-          <h1 className="text-[100px] sm:text-[140px] md:text-[200px] lg:text-[240px] font-display font-black leading-none tracking-tighter tabular-nums select-none italic text-white drop-shadow-[0_20px_50px_rgba(255,255,255,0.1)] relative z-10">
+          <h1 className="text-[92px] sm:text-[128px] md:text-[168px] xl:text-[200px] font-display font-black leading-none tracking-tight tabular-nums select-none italic text-white drop-shadow-[0_20px_50px_rgba(255,255,255,0.1)] relative z-10">
             {formatTime(timeLeft)}
           </h1>
           
@@ -138,12 +138,10 @@ export default function FocusMode() {
                 : "bg-white border-white text-black hover:bg-[#DDD]"
             )}
           >
-            {isActive ? <Pause size={48} className="md:size-64" fill="currentColor" strokeWidth={0} /> : <Play size={48} className="md:size-64 ml-2" fill="currentColor" strokeWidth={0} />}
+            {isActive ? <Pause size={48} className="md:size-16" fill="currentColor" strokeWidth={0} /> : <Play size={48} className="md:size-16 ml-2" fill="currentColor" strokeWidth={0} />}
           </button>
           
-          <button className="w-16 h-16 md:w-20 md:h-20 bg-[#0A0A0A] border border-[#222] text-[#444] hover:text-white transition-all active:scale-95 cursor-not-allowed opacity-20 flex items-center justify-center">
-            <Settings size={24} />
-          </button>
+       
         </div>
 
         <div className="mt-16 md:mt-24 grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-8 max-w-xl mx-auto px-4">

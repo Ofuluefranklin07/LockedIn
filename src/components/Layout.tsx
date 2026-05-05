@@ -18,7 +18,7 @@ import ThemeToggle from './ThemeToggle';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const { profile, signOut } = useAuth();
-  const [isSidebarOpen, setIsSidebarOpen] = React.useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);
   const navigate = useNavigate();
 
   const handleSignOut = async () => {
@@ -35,7 +35,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white flex flex-col md:flex-row font-sans">
+    <div className="min-h-screen bg-[#0A0A0A] text-white flex flex-col md:flex-row font-sans overflow-x-hidden">
       {/* Mobile Top Bar */}
       <div className="md:hidden flex items-center justify-between p-5 border-b border-[#1A1A1A] bg-[#050505] sticky top-0 z-50">
         <div className="flex items-center gap-2">
@@ -177,8 +177,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </AnimatePresence>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto mb-16 md:mb-0">
-        <div className="max-w-6xl mx-auto p-6 md:p-12 lg:p-16">
+      <main className="w-full min-w-0 flex-1 overflow-y-auto overflow-x-hidden mb-16 md:mb-0 md:ml-80 md:w-[calc(100%-20rem)]">
+        <div className="w-full max-w-7xl mx-auto p-6 md:p-10 xl:p-14">
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}

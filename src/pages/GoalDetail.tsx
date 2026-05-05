@@ -132,7 +132,7 @@ export default function GoalDetail() {
                 {goal.category}
               </span>
             </div>
-            <h1 className="text-[40px] sm:text-[60px] md:text-[80px] lg:text-[100px] font-display font-black tracking-tighter uppercase italic leading-[0.85]">{goal.title}</h1>
+            <h1 className="text-[40px] sm:text-[56px] md:text-[72px] xl:text-[88px] font-display font-black tracking-tight uppercase italic leading-[0.88] break-words">{goal.title}</h1>
           </div>
           
           <div className="flex flex-col md:items-end gap-2 shrink-0">
@@ -180,18 +180,18 @@ export default function GoalDetail() {
           <h2 className="text-3xl font-black uppercase tracking-tighter italic">Tactical Sub-Tasks</h2>
         </div>
 
-        <form onSubmit={addTask} className="flex gap-4">
+        <form onSubmit={addTask} className="flex flex-col sm:flex-row gap-4">
           <input
             type="text"
             required
             value={newTaskTitle}
             onChange={(e) => setNewTaskTitle(e.target.value)}
             placeholder="NEW TASK DEFINITION..."
-            className="flex-1 bg-[#0A0A0A] border border-[#222] px-8 py-5 focus:outline-none focus:border-white transition-all text-xl font-black italic tracking-tighter"
+            className="min-w-0 flex-1 bg-[#0A0A0A] border border-[#222] px-8 py-5 focus:outline-none focus:border-white transition-all text-xl font-black italic tracking-tight"
           />
           <button 
             type="submit"
-            className="bg-white text-black px-10 py-5 font-black flex items-center gap-2 hover:bg-[#DDD] transition-all uppercase tracking-widest italic text-sm"
+            className="bg-white text-black px-10 py-5 font-black flex items-center justify-center gap-2 hover:bg-[#DDD] transition-all uppercase tracking-widest italic text-sm sm:shrink-0"
           >
             <Plus size={20} /> Add
           </button>
@@ -208,7 +208,7 @@ export default function GoalDetail() {
                   : "bg-[#0A0A0A] border-[#222] hover:border-[#444]"
               )}
             >
-              <div className="flex items-center gap-6">
+              <div className="min-w-0 flex items-center gap-6">
                 <button 
                   onClick={() => toggleTask(task.id, task.completed)}
                   className={cn(
@@ -221,7 +221,7 @@ export default function GoalDetail() {
                   {task.completed ? <CheckCircle2 size={24} strokeWidth={3} /> : <Circle size={24} className="text-[#333] group-hover:text-white" />}
                 </button>
                 <span className={cn(
-                  "font-black transition-all text-3xl uppercase italic tracking-tighter",
+                  "font-black transition-all text-2xl md:text-3xl uppercase italic tracking-tight break-words min-w-0",
                   task.completed ? "line-through text-gray-500" : "text-white"
                 )}>
                   {task.title}

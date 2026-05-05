@@ -1,27 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import { useAuth } from '../hooks/useAuth';
-import { 
-  collection, 
-  query, 
-  where, 
-  getDocs, 
-  orderBy, 
-  limit, 
-  doc, 
-  updateDoc, 
+import React, { useEffect, useState } from "react";
+import { useAuth } from "../hooks/useAuth";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  orderBy,
+  limit,
+  doc,
+  updateDoc,
   setDoc,
   increment,
   Timestamp,
-  getDoc
-} from 'firebase/firestore';
-import { db, handleFirestoreError, OperationType } from '../lib/firebase';
-import { Goal, DailyLog, Task } from '../types';
-import { 
-  Flame, 
-  TrendingUp, 
-  Clock, 
-  CheckCircle2, 
-  Plus, 
+  getDoc,
+} from "firebase/firestore";
+import { db, handleFirestoreError, OperationType } from "../lib/firebase";
+import { Goal, DailyLog, Task } from "../types";
+import {
+  Flame,
+  TrendingUp,
+  Clock,
+  CheckCircle2,
+  Plus,
   Calendar,
   ChevronRight,
   Brain,
@@ -29,11 +29,11 @@ import {
   ArrowRight,
   Timer,
   MessageSquare,
-  Target
-} from 'lucide-react';
-import { motion } from 'motion/react';
-import { cn, formatDate, getTodayDateString } from '../lib/utils';
-import { Link } from 'react-router-dom';
+  Target,
+} from "lucide-react";
+import { motion } from "motion/react";
+import { cn, formatDate, getTodayDateString } from "../lib/utils";
+import { Link } from "react-router-dom";
 
 export default function Dashboard() {
   const { profile, user, refreshProfile } = useAuth();
@@ -41,8 +41,8 @@ export default function Dashboard() {
   const [recentLogs, setRecentLogs] = useState<DailyLog[]>([]);
   const [todayTasks, setTodayTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
-  const [loggingHours, setLoggingHours] = useState('');
-  const [loggingFocus, setLoggingFocus] = useState('7');
+  const [loggingHours, setLoggingHours] = useState("");
+  const [loggingFocus, setLoggingFocus] = useState("7");
   const [showLogModal, setShowLogModal] = useState(false);
 
   useEffect(() => {
@@ -56,31 +56,34 @@ export default function Dashboard() {
     try {
       // Fetch goals (sort in memory to avoid needing composite index)
       const goalsQuery = query(
-        collection(db, 'goals'), 
-        where('userId', '==', user.uid)
+        collection(db, "goals"),
+        where("userId", "==", user.uid),
       );
       const goalsSnap = await getDocs(goalsQuery);
       const goalsData = goalsSnap.docs
-        .map(d => ({ id: d.id, ...d.data() } as Goal))
-        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+        .map((d) => ({ id: d.id, ...d.data() }) as Goal)
+        .sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+        )
         .slice(0, 3);
       setGoals(goalsData);
 
       // Fetch recent logs (sort in memory to avoid needing index)
       const logsQuery = query(
-        collection(db, 'daily_logs'),
-        where('userId', '==', user.uid)
+        collection(db, "daily_logs"),
+        where("userId", "==", user.uid),
       );
       const logsSnap = await getDocs(logsQuery);
       const logsData = logsSnap.docs
-        .map(d => ({ id: d.id, ...d.data() } as DailyLog))
+        .map((d) => ({ id: d.id, ...d.data() }) as DailyLog)
         .sort((a, b) => b.date.localeCompare(a.date))
         .slice(0, 7);
       setRecentLogs(logsData);
 
       setLoading(false);
     } catch (error) {
-      handleFirestoreError(error, OperationType.LIST, 'dashboard_data');
+      handleFirestoreError(error, OperationType.LIST, "dashboard_data");
     }
   };
 
@@ -99,9 +102,9 @@ export default function Dashboard() {
     const logId = `${user.uid}_${todayString}`;
 
     try {
-      const logRef = doc(db, 'daily_logs', logId);
+      const logRef = doc(db, "daily_logs", logId);
       const logSnap = await getDoc(logRef);
-      
+
       const newLogData = {
         userId: user.uid,
         date: todayString,
@@ -113,39 +116,41 @@ export default function Dashboard() {
       if (!logSnap.exists()) {
         // New log for today, handle streak
         await setDoc(logRef, newLogData);
-        
+
         let newStreak = (profile.currentStreak || 0) + 1;
         const lastLogDate = profile.lastLogDate;
-        
+
         // If they missed more than 1 day, reset streak
         if (lastLogDate) {
           const last = new Date(lastLogDate);
           const today = new Date(todayString);
-          const diffInDays = Math.floor((today.getTime() - last.getTime()) / (1000 * 3600 * 24));
+          const diffInDays = Math.floor(
+            (today.getTime() - last.getTime()) / (1000 * 3600 * 24),
+          );
           if (diffInDays > 1) {
             newStreak = 1;
           }
         }
 
-        await updateDoc(doc(db, 'users', user.uid), {
+        await updateDoc(doc(db, "users", user.uid), {
           currentStreak: newStreak,
           longestStreak: Math.max(newStreak, profile.longestStreak || 0),
-          lastLogDate: todayString
+          lastLogDate: todayString,
         });
       } else {
         // Update existing log
         await updateDoc(logRef, {
           hoursStudied: increment(Number(loggingHours)),
-          focusLevel: Number(loggingFocus)
+          focusLevel: Number(loggingFocus),
         });
       }
 
       setShowLogModal(false);
-      setLoggingHours('');
+      setLoggingHours("");
       await fetchDashboardData();
       await refreshProfile();
     } catch (error) {
-      handleFirestoreError(error, OperationType.WRITE, 'daily_logs');
+      handleFirestoreError(error, OperationType.WRITE, "daily_logs");
     }
   };
 
@@ -159,56 +164,89 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="space-y-10 md:space-y-16">
+    <div className="space-y-10 md:space-y-14">
       {/* Header Section */}
-      <section className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-[#222] pb-10 md:pb-16">
-        <div className="relative">
-            <h1 className="text-[52px] sm:text-[70px] md:text-[80px] lg:text-[100px] font-display font-bold uppercase leading-[0.85] tracking-tight">Command</h1>
-            <h1 className="text-[52px] sm:text-[70px] md:text-[80px] lg:text-[100px] font-display font-bold uppercase leading-[0.85] tracking-tight translate-x-2 md:translate-x-4">Center</h1>
-            <p className="mt-8 text-[#666] font-mono text-[9px] md:text-[10px] uppercase tracking-[0.2em] font-medium opacity-60">
-              // OPERATOR: {profile?.name} <span className="mx-2 opacity-20">|</span> {profile?.academicLevel} <span className="mx-2 opacity-20">|</span> {profile?.fieldOfStudy}
-            </p>
+      <section className="flex flex-col xl:flex-row xl:items-end justify-between gap-8 border-b border-[#222] pb-10 md:pb-14">
+        <div className="relative min-w-0">
+          <h1 className="text-[48px] sm:text-[64px] md:text-[76px] xl:text-[92px] font-display font-bold uppercase leading-[0.88] tracking-tight break-words">
+            Goals Track
+          </h1>
+          <h1 className="text-[48px] sm:text-[64px] md:text-[76px] xl:text-[92px] font-display font-bold uppercase leading-[0.88] tracking-tight translate-x-2 md:translate-x-4 break-words">
+            Center
+          </h1>
+          <p className="mt-8 max-w-3xl text-[#666] font-mono text-[9px] md:text-[10px] uppercase tracking-[0.14em] font-medium opacity-60 break-words">
+            {profile?.name} <span className="mx-2 opacity-20">|</span>{" "}
+            {profile?.academicLevel} <span className="mx-2 opacity-20">|</span>{" "}
+            {profile?.fieldOfStudy}
+          </p>
         </div>
-        <button 
-          onClick={() => setShowLogModal(true)}
-          className="bg-[#F5F5F5] text-[#050505] w-full md:w-auto px-10 py-5 font-display font-bold uppercase tracking-[0.15em] hover:bg-white transition-all text-sm shadow-[0_0_30px_rgba(255,255,255,0.05)] active:scale-[0.98]"
-        >
-          Deploy Log
-        </button>
+       
       </section>
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         <div className="border border-[#222] bg-[#0A0A0A] p-6 md:p-8 relative overflow-hidden group">
           <div className="relative z-10">
-            <p className="text-[10px] font-mono uppercase text-[#444] tracking-[0.2em] mb-4 font-semibold">Operational Streak</p>
-            <h3 className="text-5xl md:text-6xl font-display font-bold text-[#F97316] tracking-tighter">{profile?.currentStreak || 0}</h3>
-            <p className="text-[9px] font-mono text-[#333] mt-4 uppercase tracking-[0.15em] font-semibold">{streakStatus()}</p>
+            <p className="text-[10px] font-mono uppercase text-[#444] tracking-[0.2em] mb-4 font-semibold">
+              Operational Streak
+            </p>
+            <h3 className="text-5xl md:text-6xl font-display font-bold text-[#F97316] tracking-tighter">
+              {profile?.currentStreak || 0}
+            </h3>
+            <p className="text-[9px] font-mono text-[#333] mt-4 uppercase tracking-[0.15em] font-semibold">
+              {streakStatus()}
+            </p>
           </div>
-          <Flame className="absolute -bottom-6 -right-6 text-[#F97316]/5 rotate-12 transition-transform group-hover:scale-110" size={140} fill="currentColor" />
+          <Flame
+            className="absolute -bottom-6 -right-6 text-[#F97316]/5 rotate-12 transition-transform group-hover:scale-110"
+            size={140}
+            fill="currentColor"
+          />
         </div>
 
         <div className="border border-[#222] bg-[#0A0A0A] p-6 md:p-8">
-          <p className="text-[10px] font-mono uppercase text-[#444] tracking-[0.2em] mb-4 font-semibold">Weekly Intensity</p>
+          <p className="text-[10px] font-mono uppercase text-[#444] tracking-[0.2em] mb-4 font-semibold">
+            Weekly Intensity
+          </p>
           <h3 className="text-5xl md:text-6xl font-display font-bold tracking-tighter">
-            {recentLogs.reduce((acc, curr) => acc + curr.hoursStudied, 0).toFixed(1)}
-            <span className="text-xl ml-2 font-mono uppercase tracking-normal opacity-40">H</span>
+            {recentLogs
+              .reduce((acc, curr) => acc + curr.hoursStudied, 0)
+              .toFixed(1)}
+            <span className="text-xl ml-2 font-mono uppercase tracking-normal opacity-40">
+              H
+            </span>
           </h3>
-          <p className="text-[9px] font-mono text-[#333] mt-4 uppercase tracking-[0.15em] font-semibold">Total Study Hours</p>
+          <p className="text-[9px] font-mono text-[#333] mt-4 uppercase tracking-[0.15em] font-semibold">
+            Total Study Hours
+          </p>
         </div>
 
         <div className="border border-[#222] bg-[#0A0A0A] p-6 md:p-8">
-          <p className="text-[10px] font-mono uppercase text-[#444] tracking-[0.2em] mb-4 font-semibold">Active Objectives</p>
-          <h3 className="text-5xl md:text-6xl font-display font-bold tracking-tighter">{goals.length}</h3>
-          <p className="text-[9px] font-mono text-[#333] mt-4 uppercase tracking-[0.15em] font-semibold">Ongoing Missions</p>
-        </div>
-
-        <div className="border border-[#222] bg-[#0A0A0A] p-6 md:p-8">
-          <p className="text-[10px] font-mono uppercase text-[#444] tracking-[0.2em] mb-4 font-semibold">Cognitive Load</p>
+          <p className="text-[10px] font-mono uppercase text-[#444] tracking-[0.2em] mb-4 font-semibold">
+            Active Objectives
+          </p>
           <h3 className="text-5xl md:text-6xl font-display font-bold tracking-tighter">
-            {(recentLogs.reduce((acc, curr) => acc + curr.focusLevel, 0) / (recentLogs.length || 1)).toFixed(1)}
+            {goals.length}
           </h3>
-          <p className="text-[9px] font-mono text-[#333] mt-4 uppercase tracking-[0.15em] font-semibold">Avg Focus Intensity</p>
+          <p className="text-[9px] font-mono text-[#333] mt-4 uppercase tracking-[0.15em] font-semibold">
+            Ongoing Missions
+          </p>
+        </div>
+
+        <div className="border border-[#222] bg-[#0A0A0A] p-6 md:p-8">
+          <p className="text-[10px] font-mono uppercase text-[#444] tracking-[0.2em] mb-4 font-semibold">
+            {" "}
+            Goals Load
+          </p>
+          <h3 className="text-5xl md:text-6xl font-display font-bold tracking-tighter">
+            {(
+              recentLogs.reduce((acc, curr) => acc + curr.focusLevel, 0) /
+              (recentLogs.length || 1)
+            ).toFixed(1)}
+          </h3>
+          <p className="text-[9px] font-mono text-[#333] mt-4 uppercase tracking-[0.15em] font-semibold">
+            Avg Focus Intensity
+          </p>
         </div>
       </div>
 
@@ -216,22 +254,27 @@ export default function Dashboard() {
         {/* Goals Progress */}
         <div className="lg:col-span-8 space-y-8">
           <div className="flex items-center justify-between border-b border-[#222] pb-4">
-            <h2 className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#888] italic">Mission Status</h2>
-            <Link to="/goals" className="text-[9px] font-mono font-bold text-[#555] hover:text-white uppercase tracking-widest transition-colors">
-              Expand All Ops
+            <h2 className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#888] italic">
+              Mission Status
+            </h2>
+            <Link
+              to="/goals"
+              className="text-[9px] font-mono font-bold text-[#555] hover:text-white uppercase tracking-widest transition-colors"
+            >
+              Expand all Goals
             </Link>
           </div>
-          
+
           <div className="space-y-6">
             {goals.length > 0 ? (
               goals.map((goal) => (
-                <Link 
-                  key={goal.id} 
+                <Link
+                  key={goal.id}
                   to={`/goals/${goal.id}`}
                   className="group block bg-[#0A0A0A] border border-[#222] p-6 md:p-8 hover:border-[#F5F5F5] transition-all relative overflow-hidden"
                 >
                   <div className="flex items-start justify-between mb-8">
-                    <div className="space-y-3">
+                    <div className="space-y-3 min-w-0">
                       <div className="flex items-center gap-3">
                         <span className="text-[9px] font-mono font-black uppercase tracking-[0.2em] px-2 py-1 bg-[#111] text-[#666] border border-[#222]">
                           {goal.priority}
@@ -240,14 +283,20 @@ export default function Dashboard() {
                           {goal.category}
                         </span>
                       </div>
-                      <h4 className="text-3xl md:text-4xl font-display font-black uppercase italic tracking-tighter group-hover:text-white transition-colors">{goal.title}</h4>
+                      <h4 className="text-3xl md:text-4xl font-display font-black uppercase italic tracking-tight group-hover:text-white transition-colors break-words">
+                        {goal.title}
+                      </h4>
                     </div>
-                    <ArrowRight className="text-[#222] group-hover:text-white group-hover:translate-x-2 transition-all" size={32} />
+                    <ArrowRight
+                      className="text-[#222] group-hover:text-white group-hover:translate-x-2 transition-all"
+                      size={32}
+                    />
                   </div>
-                  
+
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2 text-[10px] font-mono text-[#444] uppercase tracking-[0.2em] italic font-black">
-                      <Calendar size={12} className="opacity-40" /> Terminal: {formatDate(goal.deadline)}
+                      <Calendar size={12} className="opacity-40" /> Terminal:{" "}
+                      {formatDate(goal.deadline)}
                     </div>
                   </div>
                   {/* Decorative background text */}
@@ -258,12 +307,14 @@ export default function Dashboard() {
               ))
             ) : (
               <div className="bg-[#0A0A0A] border border-[#222] border-dashed p-12 text-center">
-                <p className="text-[#555] font-mono text-xs uppercase tracking-widest italic mb-6">No mission data deployed.</p>
-                <Link 
-                  to="/goals" 
+                <p className="text-[#555] font-mono text-xs uppercase tracking-widest italic mb-6">
+                  No goals available.
+                </p>
+                <Link
+                  to="/goals"
                   className="inline-block border border-[#F5F5F5] px-8 py-4 text-xs font-black uppercase tracking-widest hover:bg-[#F5F5F5] hover:text-[#050505] transition-all"
                 >
-                  Initialize Goal
+                  Start setting your Goals
                 </Link>
               </div>
             )}
@@ -272,12 +323,14 @@ export default function Dashboard() {
 
         {/* Action Sidebar */}
         <div className="lg:col-span-4 space-y-8">
-          <h2 className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#888] italic pb-4 border-b border-[#222]">Tactical Actions</h2>
-          
+          <h2 className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#888] italic pb-4 border-b border-[#222]">
+            Tactical Actions
+          </h2>
+
           <div className="space-y-12">
             <div className="space-y-4">
-              <Link 
-                to="/focus" 
+              <Link
+                to="/focus"
                 className="flex items-center justify-between p-6 md:p-8 bg-[#0A0A0A] border border-[#222] hover:border-[#F5F5F5] transition-all group"
               >
                 <div className="flex items-center gap-5">
@@ -285,15 +338,22 @@ export default function Dashboard() {
                     <Timer size={22} />
                   </div>
                   <div>
-                    <h4 className="font-display font-black text-base md:text-lg uppercase italic tracking-tight">Focus Mode</h4>
-                    <p className="text-[9px] font-mono text-[#444] uppercase tracking-[0.2em] mt-1 font-black italic">Engage Deep Work</p>
+                    <h4 className="font-display font-black text-base md:text-lg uppercase italic tracking-tight">
+                      Focus Mode
+                    </h4>
+                    <p className="text-[9px] font-mono text-[#444] uppercase tracking-[0.2em] mt-1 font-black italic">
+                      Engage Deep Work
+                    </p>
                   </div>
                 </div>
-                <ChevronRight size={20} className="text-[#222] group-hover:text-white transition-colors" />
+                <ChevronRight
+                  size={20}
+                  className="text-[#222] group-hover:text-white transition-colors"
+                />
               </Link>
-  
-              <Link 
-                to="/coach" 
+
+              <Link
+                to="/coach"
                 className="flex items-center justify-between p-6 md:p-8 bg-[#0A0A0A] border border-[#222] hover:border-[#F5F5F5] transition-all group"
               >
                 <div className="flex items-center gap-5">
@@ -301,18 +361,28 @@ export default function Dashboard() {
                     <MessageSquare size={22} />
                   </div>
                   <div>
-                    <h4 className="font-display font-black text-base md:text-lg uppercase italic tracking-tight">AI Coach</h4>
-                    <p className="text-[9px] font-mono text-[#444] uppercase tracking-[0.2em] mt-1 font-black italic">Neural Advice</p>
+                    <h4 className="font-display font-black text-base md:text-lg uppercase italic tracking-tight">
+                      AI Coach
+                    </h4>
+                    <p className="text-[9px] font-mono text-[#444] uppercase tracking-[0.2em] mt-1 font-black italic">
+                      Neural Advice
+                    </p>
                   </div>
                 </div>
-                <ChevronRight size={20} className="text-[#222] group-hover:text-white transition-colors" />
+                <ChevronRight
+                  size={20}
+                  className="text-[#222] group-hover:text-white transition-colors"
+                />
               </Link>
             </div>
-  
+
             <div className="border border-[#F97316]/50 p-8 md:p-10 bg-[#0F0804] relative overflow-hidden group">
-              <h4 className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#F97316] mb-6 italic font-black">Advisor Flash</h4>
+              <h4 className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#F97316] mb-6 italic font-black">
+                Advisor Flash
+              </h4>
               <p className="text-sm md:text-base italic leading-relaxed text-[#CCC] mb-8 font-medium">
-                "Your focus is highest between 18:00 and 21:00. Maintain this velocity."
+                "Your focus is highest between 18:00 and 21:00. Maintain this
+                velocity."
               </p>
               <div className="text-[70px] font-display font-black text-[#F97316]/5 absolute bottom-0 right-0 leading-none pointer-events-none uppercase italic tracking-tighter transition-all group-hover:opacity-10">
                 INSIGHT
@@ -323,86 +393,9 @@ export default function Dashboard() {
       </div>
 
       {/* Log Modal */}
-      {showLogModal && (
-        <div className="fixed inset-0 bg-black/95 backdrop-blur-md z-[100] flex items-center justify-center p-4">
-          <motion.div 
-            initial={{ y: 50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            className="w-full max-w-lg bg-[#050505] border border-[#222] p-12 relative"
-          >
-            <div className="flex items-center justify-between mb-12">
-              <h3 className="text-4xl font-black uppercase tracking-tighter italic">Operational Log</h3>
-              <button 
-                onClick={() => setShowLogModal(false)}
-                className="text-[#555] hover:text-white transition-colors"
-              >
-                <X size={32} />
-              </button>
-            </div>
+      
+                
+          </div>)}    
+   
 
-            <form onSubmit={handleLogActivity} className="space-y-8">
-              <div className="space-y-2">
-                <label className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#888] italic">Resource Consumption (Hours)</label>
-                <input
-                  type="number"
-                  step="0.1"
-                  required
-                  autoFocus
-                  value={loggingHours}
-                  onChange={(e) => setLoggingHours(e.target.value)}
-                  className="w-full bg-[#0A0A0A] border border-[#222] px-6 py-5 focus:outline-none focus:border-white transition-all text-5xl font-black italic tracking-tighter"
-                  placeholder="0.0"
-                />
-              </div>
 
-              <div className="space-y-4">
-                <div className="flex justify-between items-center">
-                  <label className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#888] italic">Cognitive Focus</label>
-                  <span className="text-[10px] font-mono text-[#F97316] font-black">{loggingFocus} / 10</span>
-                </div>
-                <input
-                  type="range"
-                  min="1"
-                  max="10"
-                  value={loggingFocus}
-                  onChange={(e) => setLoggingFocus(e.target.value)}
-                  className="w-full h-1 bg-[#222] appearance-none cursor-pointer accent-[#F97316]"
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="w-full bg-white text-black py-5 font-black uppercase tracking-widest hover:bg-[#DDD] transition-all italic text-sm mt-8"
-              >
-                Commit Data
-              </button>
-            </form>
-
-            <div className="absolute -bottom-8 -left-4 pointer-events-none opacity-5">
-              <span className="text-[120px] font-black uppercase italic tracking-tighter select-none">DATA</span>
-            </div>
-          </motion.div>
-        </div>
-      )}
-    </div>
-  );
-}
-
-function X({ size, className }: { size?: number, className?: string }) {
-  return (
-    <svg 
-      xmlns="http://www.w3.org/2000/svg" 
-      width={size || 24} 
-      height={size || 24} 
-      viewBox="0 0 24 24" 
-      fill="none" 
-      stroke="currentColor" 
-      strokeWidth="2" 
-      strokeLinecap="round" 
-      strokeLinejoin="round" 
-      className={className}
-    >
-      <path d="M18 6 6 18" /><path d="m6 6 12 12" />
-    </svg>
-  );
-}

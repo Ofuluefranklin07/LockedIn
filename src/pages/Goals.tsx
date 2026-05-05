@@ -98,19 +98,19 @@ export default function Goals() {
 
   return (
     <div className="space-y-12">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 mb-12">
-        <div className="space-y-4">
-          <h1 className="text-[52px] sm:text-[70px] md:text-[80px] lg:text-[100px] font-display font-black italic uppercase leading-[0.85] tracking-tighter">Tactical</h1>
-          <h1 className="text-[52px] sm:text-[70px] md:text-[80px] lg:text-[100px] font-display font-black italic uppercase leading-[0.85] tracking-tighter translate-x-2 md:translate-x-4">Map</h1>
-          <p className="mt-8 text-[#666] font-mono text-[9px] md:text-[10px] uppercase tracking-[0.3em] font-medium italic">
-            // STATUS: MONITORING_ALL_ACTIVE_MISSIONS
+      <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-8 mb-12">
+        <div className="space-y-4 min-w-0">
+          <h1 className="text-[48px] sm:text-[64px] md:text-[76px] xl:text-[92px] font-display font-black italic uppercase leading-[0.88] tracking-tight break-words">Tactical</h1>
+          <h1 className="text-[48px] sm:text-[64px] md:text-[76px] xl:text-[92px] font-display font-black italic uppercase leading-[0.88] tracking-tight translate-x-2 md:translate-x-4 break-words">Map</h1>
+          <p className="mt-8 text-[#666] font-mono text-[9px] md:text-[10px] uppercase tracking-[0.14em] font-medium italic break-words">
+             MONITORING ALL ACTIVE GOALS
           </p>
         </div>
         <button 
           onClick={() => setIsModalOpen(true)}
-          className="bg-white text-black w-full md:w-auto px-10 py-5 font-display font-black uppercase tracking-[0.2em] hover:bg-[#DDD] transition-all italic text-sm active:scale-[0.98]"
+          className="bg-white text-black w-full sm:w-auto xl:shrink-0 px-10 py-5 font-display font-black uppercase tracking-[0.14em] hover:bg-[#DDD] transition-all italic text-sm active:scale-[0.98]"
         >
-          <Plus size={20} className="inline mr-2" /> New Objective
+          <Plus size={20} className="inline mr-2" /> New Goals
         </button>
       </div>
 
@@ -143,7 +143,7 @@ export default function Goals() {
               </button>
             </div>
             
-            <h3 className="text-3xl md:text-4xl font-display font-black mb-8 group-hover:text-white uppercase italic tracking-tighter leading-none transition-colors">{goal.title}</h3>
+            <h3 className="text-3xl md:text-4xl font-display font-black mb-8 group-hover:text-white uppercase italic tracking-tight leading-tight transition-colors break-words">{goal.title}</h3>
             
             <div className="flex items-center gap-4 text-[10px] text-[#444] font-mono tracking-[0.2em] uppercase font-black italic">
               <Calendar size={14} className="opacity-40" /> Terminal: {formatDate(goal.deadline)}
