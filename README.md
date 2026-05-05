@@ -1,4 +1,4 @@
-# LockIn - Command Center
+# LockedIn - Command Center
 
 A high-intensity academic discipline and focus tracking system.
 
