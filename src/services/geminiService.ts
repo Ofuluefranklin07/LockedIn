@@ -1,7 +1,15 @@
 import { GoogleGenAI } from "@google/genai";
 import { DailyLog, Goal, UserProfile } from "../types";
 
-const GEMINI_MODEL = "gemini-2.5-flash";
+const CONFIGURED_GEMINI_MODEL =
+  process.env.GEMINI_MODEL ||
+  process.env.VITE_GEMINI_MODEL ||
+  "gemini-2.5-flash";
+const GEMINI_MODELS = Array.from(new Set([
+  CONFIGURED_GEMINI_MODEL,
+  "gemini-2.5-flash-lite",
+  "gemini-2.0-flash",
+]));
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY;
 const PLACEHOLDER_KEYS = new Set([
   "",
@@ -40,7 +48,7 @@ function getGeminiClient() {
   };
 }
 
-function formatGeminiError(error: unknown) {
+function formatGeminiError(error: unknown, attemptedModels = GEMINI_MODELS) {
   console.error("Gemini API Error:", error);
   const message = String((error as any)?.message ?? error);
 
@@ -49,10 +57,46 @@ function formatGeminiError(error: unknown) {
   }
 
   if (message.toLowerCase().includes("model")) {
-    return `## Gemini model problem\n\nThe configured model \`${GEMINI_MODEL}\` was rejected by Gemini. Try checking that your API key has access to Gemini Developer API models.`;
+    return `## Gemini model problem\n\nGemini rejected the available model options: ${attemptedModels.map((model) => `\`${model}\``).join(", ")}. Please confirm this API key is enabled for the Gemini Developer API in Google AI Studio.`;
   }
 
   return "## AI Coach unavailable\n\nGemini did not return a response. Please check your internet connection, API key billing/quota, and try again.";
+}
+
+async function generateGeminiText(ai: GoogleGenAI, prompt: string) {
+  const attemptedModels: string[] = [];
+  let lastError: unknown = null;
+
+  for (const model of GEMINI_MODELS) {
+    attemptedModels.push(model);
+
+    try {
+      const response = await ai.models.generateContent({
+        model,
+        contents: prompt,
+      });
+      return response.text || "";
+    } catch (error) {
+      lastError = error;
+      const message = String((error as any)?.message ?? error).toLowerCase();
+      const shouldTryNextModel =
+        message.includes("model") ||
+        message.includes("not found") ||
+        message.includes("not supported") ||
+        message.includes("permission");
+
+      console.warn(`Gemini model ${model} failed.`, error);
+
+      if (!shouldTryNextModel) {
+        break;
+      }
+    }
+  }
+
+  throw Object.assign(new Error("All configured Gemini models failed."), {
+    cause: lastError,
+    attemptedModels,
+  });
 }
 
 export async function getAICoachFeedback(profile: UserProfile, logs: DailyLog[], goals: Goal[]) {
@@ -89,13 +133,10 @@ export async function getAICoachFeedback(profile: UserProfile, logs: DailyLog[],
   `;
 
   try {
-    const response = await ai.models.generateContent({
-      model: GEMINI_MODEL,
-      contents: prompt,
-    });
-    return response.text || "I've analyzed your data but don't have specific feedback yet. Keep locking in!";
+    const text = await generateGeminiText(ai, prompt);
+    return text || "I've analyzed your data but don't have specific feedback yet. Keep locking in!";
   } catch (error) {
-    return formatGeminiError(error);
+    return formatGeminiError(error, (error as any)?.attemptedModels);
   }
 }
 
@@ -143,12 +184,9 @@ export async function getAcademicChatReply(
   `;
 
   try {
-    const response = await ai.models.generateContent({
-      model: GEMINI_MODEL,
-      contents: prompt,
-    });
-    return response.text || "I could not form a clear answer yet. Try asking the question in a slightly different way.";
+    const text = await generateGeminiText(ai, prompt);
+    return text || "I could not form a clear answer yet. Try asking the question in a slightly different way.";
   } catch (error) {
-    return formatGeminiError(error);
+    return formatGeminiError(error, (error as any)?.attemptedModels);
   }
 }
