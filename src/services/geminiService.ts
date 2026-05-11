@@ -4,9 +4,10 @@ import { DailyLog, Goal, UserProfile } from "../types";
 const CONFIGURED_GEMINI_MODEL =
   process.env.GEMINI_MODEL ||
   process.env.VITE_GEMINI_MODEL ||
-  "gemini-2.5-flash";
+  "gemini-2.5-flash-lite";
 const GEMINI_MODELS = Array.from(new Set([
   CONFIGURED_GEMINI_MODEL,
+  "gemini-2.5-flash",
   "gemini-2.5-flash-lite",
   "gemini-2.0-flash",
 ]));
@@ -71,15 +72,21 @@ function formatGeminiError(error: unknown, attemptedModels = GEMINI_MODELS) {
 async function generateGeminiText(ai: GoogleGenAI, prompt: string) {
   const attemptedModels: string[] = [];
   let lastError: unknown = null;
+  const timeoutMs = 20000;
 
   for (const model of GEMINI_MODELS) {
     attemptedModels.push(model);
 
     try {
-      const response = await ai.models.generateContent({
-        model,
-        contents: prompt,
-      });
+      const response = await Promise.race([
+        ai.models.generateContent({
+          model,
+          contents: prompt,
+        }),
+        new Promise<never>((_, reject) => {
+          globalThis.setTimeout(() => reject(new Error(`Gemini model ${model} timed out after ${timeoutMs / 1000}s.`)), timeoutMs);
+        }),
+      ]);
       return response.text || "";
     } catch (error) {
       lastError = error;
@@ -88,7 +95,8 @@ async function generateGeminiText(ai: GoogleGenAI, prompt: string) {
         message.includes("model") ||
         message.includes("not found") ||
         message.includes("not supported") ||
-        message.includes("permission");
+        message.includes("permission") ||
+        message.includes("timed out");
 
       console.warn(`Gemini model ${model} failed.`, error);
 
