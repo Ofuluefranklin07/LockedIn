@@ -24,6 +24,11 @@ export interface AcademicChatMessage {
   content: string;
 }
 
+export interface GeminiTextResult {
+  ok: boolean;
+  text: string;
+}
+
 function getGeminiClient() {
   const apiKey = GEMINI_API_KEY?.trim() ?? "";
 
@@ -138,6 +143,19 @@ export async function getAICoachFeedback(profile: UserProfile, logs: DailyLog[],
   } catch (error) {
     return formatGeminiError(error, (error as any)?.attemptedModels);
   }
+}
+
+export async function getAICoachFeedbackResult(profile: UserProfile, logs: DailyLog[], goals: Goal[]): Promise<GeminiTextResult> {
+  const text = await getAICoachFeedback(profile, logs, goals);
+  const isSetupOrError =
+    text.startsWith("## AI Coach setup needed") ||
+    text.startsWith("## Gemini") ||
+    text.startsWith("## AI Coach unavailable");
+
+  return {
+    ok: !isSetupOrError,
+    text,
+  };
 }
 
 export async function getAcademicChatReply(

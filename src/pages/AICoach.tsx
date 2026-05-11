@@ -11,7 +11,7 @@ import { DailyLog, Goal } from '../types';
 import {
   AcademicChatMessage,
   getAcademicChatReply,
-  getAICoachFeedback,
+  getAICoachFeedbackResult,
 } from '../services/geminiService';
 import {
   AlertCircle,
@@ -104,11 +104,18 @@ export default function AICoach() {
         .slice(0, 14);
       const goals = goalsSnap.docs.map((d) => d.data() as Goal);
 
-      const result = await getAICoachFeedback(profile, logs, goals);
-      setFeedback(result);
+      const result = await getAICoachFeedbackResult(profile, logs, goals);
+
+      if (result.ok) {
+        setFeedback(result.text);
+      } else {
+        setFeedback(null);
+        setError(result.text);
+      }
     } catch (err) {
       console.error(err);
-      setError('Failed to generate AI insights. Ensure your GEMINI_API_KEY is active.');
+      setFeedback(null);
+      setError('Insights are temporarily unavailable. You can still use the academic chat below while we reconnect the analysis engine.');
     } finally {
       setLoading(false);
     }
@@ -193,7 +200,7 @@ export default function AICoach() {
             </div>
             <h4 className="text-xs font-black uppercase tracking-widest mb-2">Analysis Engine</h4>
             <p className={cn('text-sm leading-relaxed font-medium', page.muted)}>
-              Using Gemini 2.5 Flash to correlate your study hours, focus levels, and goal progress.
+              Reviews your study history, focus patterns, and active goals to surface practical coaching insights.
             </p>
           </div>
 
@@ -230,10 +237,20 @@ export default function AICoach() {
                 </p>
               </div>
             ) : error ? (
-              <div className="flex flex-col items-center justify-center py-20 text-center">
-                <AlertCircle size={48} className="text-red-500 mb-4" />
-                <h3 className="text-xl font-bold mb-2">Analysis Interrupted</h3>
-                <p className={cn('max-w-sm mx-auto', page.muted)}>{error}</p>
+              <div className="flex flex-col items-center justify-center py-20 text-center relative z-10">
+                <AlertCircle size={48} className="text-orange-500 mb-4" />
+                <h3 className="text-xl font-bold mb-2">Insights Temporarily Unavailable</h3>
+                <div className={cn(
+                  'markdown-body prose max-w-xl mx-auto',
+                  isLight
+                    ? 'prose-slate prose-p:text-slate-700 prose-li:text-slate-700 prose-strong:text-slate-950 prose-headings:text-slate-950'
+                    : 'prose-invert prose-white prose-p:text-gray-200 prose-li:text-gray-200 prose-strong:text-white',
+                )}>
+                  <ReactMarkdown>{error}</ReactMarkdown>
+                </div>
+                <p className={cn('mt-5 text-sm font-medium', page.subtle)}>
+                  The academic chat below can still answer questions while insights recover.
+                </p>
               </div>
             ) : feedback ? (
               <div className={cn(
