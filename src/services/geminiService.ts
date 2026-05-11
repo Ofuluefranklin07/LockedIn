@@ -2,11 +2,13 @@ import { GoogleGenAI } from "@google/genai";
 import { DailyLog, Goal, UserProfile } from "../types";
 
 const GEMINI_MODEL = "gemini-2.5-flash";
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY;
 const PLACEHOLDER_KEYS = new Set([
   "",
   "MY_GEMINI_API_KEY",
+  "MY_VITE_GEMINI_API_KEY",
   "your-gemini-api-key-here",
+  "your-real-key",
 ]);
 
 export interface AcademicChatMessage {
@@ -23,11 +25,11 @@ function getGeminiClient() {
       setupMessage: [
         "## AI Coach setup needed",
         "",
-        "Add your real Gemini API key to `.env.local`, then restart the dev server.",
+        "The live app was built without a Gemini API key.",
         "",
-        "```env",
-        'GEMINI_API_KEY="your-real-key"',
-        "```",
+        "For local development, add `GEMINI_API_KEY` or `VITE_GEMINI_API_KEY` to `.env.local`, then restart the dev server.",
+        "",
+        "For the deployed app, add the same value as `VITE_GEMINI_API_KEY` in your hosting provider's environment variables, then redeploy.",
       ].join("\n"),
     };
   }
@@ -43,7 +45,7 @@ function formatGeminiError(error: unknown) {
   const message = String((error as any)?.message ?? error);
 
   if (message.toLowerCase().includes("api key")) {
-    return "## Gemini API key problem\n\nThe AI request failed because the Gemini API key is missing, invalid, or restricted. Please check the key in `.env.local`, then restart the dev server.";
+    return "## Gemini API key problem\n\nThe AI request failed because the Gemini API key is missing, invalid, or restricted. Locally, check `.env.local`. On the live app, check `VITE_GEMINI_API_KEY` in your hosting environment variables and redeploy.";
   }
 
   if (message.toLowerCase().includes("model")) {
