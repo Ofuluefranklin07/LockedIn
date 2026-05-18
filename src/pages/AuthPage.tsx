@@ -222,13 +222,13 @@ export default function AuthPage({ type }: AuthPageProps) {
         <p className="mt-12 text-center text-[10px] font-mono uppercase tracking-[0.14em] text-[#444] font-semibold">
           {type === 'login' ? (
             <span className="flex flex-col md:flex-row items-center justify-center gap-2">
-              No account created?
+              No account profile?
               <Link to="/signup" className="text-white hover:underline underline-offset-4 decoration-white/20 ml-1">Sign up</Link>
             </span>
           ) : (
             <span className="flex flex-col md:flex-row items-center justify-center gap-2">
-              Operative profile exists?
-              <Link to="/login" className="text-white hover:underline underline-offset-4 decoration-white/20 ml-1">Re-authenticate</Link>
+              Account exists?
+              <Link to="/login" className="text-white hover:underline underline-offset-4 decoration-white/20 ml-1">Login</Link>
             </span>
           )}
         </p>
