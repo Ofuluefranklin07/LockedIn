@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword
+import { 
+  createUserWithEmailAndPassword, 
+  signInWithEmailAndPassword 
 } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { auth, db } from '../lib/firebase';
@@ -22,7 +22,7 @@ export default function AuthPage({ type }: AuthPageProps) {
   const [fieldOfStudy, setFieldOfStudy] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-
+  
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -34,7 +34,7 @@ export default function AuthPage({ type }: AuthPageProps) {
       if (type === 'signup') {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
-
+        
         await setDoc(doc(db, 'users', user.uid), {
           name,
           email,
@@ -70,8 +70,8 @@ export default function AuthPage({ type }: AuthPageProps) {
     <div className="min-h-screen bg-[#050505] text-white flex items-center justify-center p-6 font-sans relative overflow-hidden">
       {/* Decorative background accent */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white opacity-[0.02] blur-[100px] rounded-full translate-x-1/2 -translate-y-1/2" />
-
-      <motion.div
+      
+      <motion.div 
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         className="w-full max-w-xl bg-[#0A0A0A] border border-[#222] p-8 md:p-16 relative z-10"
@@ -84,13 +84,13 @@ export default function AuthPage({ type }: AuthPageProps) {
             <h1 className="text-4xl font-display font-black italic uppercase tracking-tighter">LockedIn</h1>
           </div>
           <h2 className="text-2xl md:text-3xl font-display font-black uppercase italic tracking-tighter">
-            {type === 'login' ? 'LOGIN' : 'SIGN UP'}
+            {type === 'login' ? 'LOGIN' : 'Sign up'}
           </h2>
-          <p className="text-[#666] font-mono text-[10px] mt-4 uppercase tracking-[0.2em] font-black italic leading-relaxed">
-            {type === 'login'
-              ? "Enter main to get back to your cognitive optimization journey."
-              : "Register new operative for systematic cognitive optimization."}
-          </p>
+          {type === 'login' && (
+            <p className="text-[#666] font-mono text-[10px] mt-4 uppercase tracking-[0.2em] font-black italic leading-relaxed">
+              Enter main to get back to your cognitive optimization journey.
+            </p>
+          )}
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -192,7 +192,7 @@ export default function AuthPage({ type }: AuthPageProps) {
             disabled={loading}
             className="w-full bg-white text-black font-display font-black py-5 uppercase tracking-[0.3em] hover:bg-[#DDD] transition-all disabled:opacity-50 mt-6 italic text-sm active:scale-[0.98]"
           >
-            {loading ? 'SYNCING_DATA...' : type === 'login' ? 'ESTABLISH_LOCK' : 'INITIALIZE_DISCIPLINE'}
+            {loading ? 'SYNCING_DATA...' : type === 'login' ? 'ESTABLISH_LOCK' : 'Sign up'}
           </button>
         </form>
 
@@ -204,7 +204,7 @@ export default function AuthPage({ type }: AuthPageProps) {
             </span>
           ) : (
             <span className="flex flex-col md:flex-row items-center justify-center gap-2">
-              Account exists?
+            Account exists?
               <Link to="/login" className="text-white hover:underline underline-offset-4 decoration-white/20 ml-1">Login</Link>
             </span>
           )}
@@ -218,3 +218,4 @@ export default function AuthPage({ type }: AuthPageProps) {
     </div>
   );
 }
+  
