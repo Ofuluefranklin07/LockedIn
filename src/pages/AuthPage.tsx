@@ -97,21 +97,23 @@ export default function AuthPage({ type }: AuthPageProps) {
         </div>
 
         <div className="p-6 sm:p-8 md:p-12 xl:p-16">
-          <div className="mb-12">
+          <div className={type === 'login' ? 'mb-8' : 'mb-12'}>
             <div className="flex items-center gap-3 mb-8 lg:hidden">
               <div className="w-10 h-10 bg-white flex items-center justify-center text-black">
                 <Target size={24} />
               </div>
               <h1 className="text-4xl font-display font-bold uppercase tracking-tight">LockIn</h1>
             </div>
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-display font-bold uppercase tracking-tight break-words">
-              {type === 'login' ? '// AUTHENTICATE_USER' : '// INITIALIZE_DISCIPLINE'}
-            </h2>
-            <p className="text-[#666] font-mono text-[10px] mt-4 uppercase tracking-[0.14em] font-medium leading-relaxed opacity-60">
-              {type === 'login' 
-                ? "Establish connection to previously authorized neural profile." 
-                : "Register new operative for systematic cognitive optimization."}
-            </p>
+            {type === 'signup' && (
+              <>
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-display font-bold uppercase tracking-tight break-words">
+                  // INITIALIZE_DISCIPLINE
+                </h2>
+                <p className="text-[#666] font-mono text-[10px] mt-4 uppercase tracking-[0.14em] font-medium leading-relaxed opacity-60">
+                  Register new operative for systematic cognitive optimization.
+                </p>
+              </>
+            )}
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
