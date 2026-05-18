@@ -150,7 +150,7 @@ export default function Analytics() {
 
   if (loading) {
     return (
-      <div className={cn('rounded-[32px] border p-10 text-center', styles.card)}>
+      <div className={cn('rounded-lg border p-8 sm:p-10 text-center', styles.card)}>
         <RefreshCw className="mx-auto mb-4 animate-spin text-orange-500" size={34} />
         <p className={cn('font-black uppercase tracking-[0.2em] text-xs', styles.muted)}>
           Processing analytics...
@@ -160,11 +160,11 @@ export default function Analytics() {
   }
 
   return (
-    <div className="space-y-10">
-      <header className={cn('rounded-[36px] border p-6 md:p-8', styles.hero)}>
+    <div className="space-y-8 md:space-y-10">
+      <header className={cn('rounded-lg border p-5 sm:p-6 md:p-8 overflow-hidden', styles.hero)}>
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
           <div>
-            <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tight italic">Strategic Analytics</h1>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight">Strategic Analytics</h1>
             <p className={cn('mt-2 font-medium', styles.muted)}>
               Real performance metrics from your daily study logs.
             </p>
@@ -172,7 +172,7 @@ export default function Analytics() {
           <button
             onClick={fetchLogs}
             className={cn(
-              'px-5 py-3 rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center gap-2 transition-all',
+              'w-full sm:w-auto px-5 py-3 rounded-lg font-black uppercase tracking-widest text-xs flex items-center justify-center gap-2 transition-all active:scale-[0.98]',
               isLight
                 ? 'bg-slate-950 text-[#FFFFFF] hover:bg-orange-500'
                 : 'bg-slate-50 text-black hover:bg-orange-500 hover:text-[#FFFFFF]',
@@ -185,29 +185,29 @@ export default function Analytics() {
       </header>
 
       {error && (
-        <div className="rounded-3xl border border-red-500/30 bg-red-500/10 p-5 text-red-200 flex items-start gap-3">
+        <div className="rounded-lg border border-red-500/30 bg-red-500/10 p-5 text-red-200 flex items-start gap-3">
           <AlertCircle size={22} className="shrink-0 mt-0.5" />
           <p className="text-sm font-semibold">{error}</p>
         </div>
       )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-        <div className={cn('border rounded-3xl p-6', styles.card)}>
+        <div className={cn('border rounded-lg p-5 sm:p-6 transition-transform hover:-translate-y-1', styles.card)}>
           <Clock className="mb-4 text-orange-500" size={26} />
           <p className={cn('text-[10px] font-black uppercase tracking-[0.2em]', styles.subtle)}>14-Day Hours</p>
           <h3 className="mt-2 text-4xl font-black tracking-tight">{summary.totalHours.toFixed(1)}h</h3>
         </div>
-        <div className={cn('border rounded-3xl p-6', styles.card)}>
+        <div className={cn('border rounded-lg p-5 sm:p-6 transition-transform hover:-translate-y-1', styles.card)}>
           <Zap className="mb-4 text-orange-500" size={26} />
           <p className={cn('text-[10px] font-black uppercase tracking-[0.2em]', styles.subtle)}>Average Focus</p>
           <h3 className="mt-2 text-4xl font-black tracking-tight">{summary.averageFocus.toFixed(1)}/10</h3>
         </div>
-        <div className={cn('border rounded-3xl p-6', styles.card)}>
+        <div className={cn('border rounded-lg p-5 sm:p-6 transition-transform hover:-translate-y-1', styles.card)}>
           <CalendarDays className="mb-4 text-orange-500" size={26} />
           <p className={cn('text-[10px] font-black uppercase tracking-[0.2em]', styles.subtle)}>Logged Days</p>
           <h3 className="mt-2 text-4xl font-black tracking-tight">{summary.loggedDays}/14</h3>
         </div>
-        <div className={cn('border rounded-3xl p-6', styles.card)}>
+        <div className={cn('border rounded-lg p-5 sm:p-6 transition-transform hover:-translate-y-1', styles.card)}>
           <TrendingUp className="mb-4 text-orange-500" size={26} />
           <p className={cn('text-[10px] font-black uppercase tracking-[0.2em]', styles.subtle)}>Consistency</p>
           <h3 className="mt-2 text-4xl font-black tracking-tight">{summary.consistency}%</h3>
@@ -215,7 +215,7 @@ export default function Analytics() {
       </div>
 
       {logs.length === 0 && !error && (
-        <div className={cn('rounded-[32px] border p-8 text-center', styles.card)}>
+        <div className={cn('rounded-lg border p-6 sm:p-8 text-center', styles.card)}>
           <BarChart3 className="mx-auto mb-4 text-orange-500" size={44} />
           <h2 className="text-2xl font-black uppercase tracking-tight">No Analytics Yet</h2>
           <p className={cn('mt-2 max-w-xl mx-auto text-sm', styles.muted)}>
@@ -225,11 +225,11 @@ export default function Analytics() {
       )}
 
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-        <div className={cn('border p-6 md:p-8 rounded-[32px] space-y-6', styles.card)}>
+        <div className={cn('border p-4 sm:p-6 md:p-8 rounded-lg space-y-5 sm:space-y-6 overflow-hidden', styles.card)}>
           <h3 className={cn('text-xs font-black uppercase tracking-widest flex items-center gap-2', styles.subtle)}>
             <Clock size={14} /> Study Intensity (Last 14 Days)
           </h3>
-          <div className="h-[320px] w-full">
+          <div className="h-[260px] sm:h-[320px] w-full">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={chartData}>
                 <defs>
@@ -251,11 +251,11 @@ export default function Analytics() {
           </div>
         </div>
 
-        <div className={cn('border p-6 md:p-8 rounded-[32px] space-y-6', styles.card)}>
+        <div className={cn('border p-4 sm:p-6 md:p-8 rounded-lg space-y-5 sm:space-y-6 overflow-hidden', styles.card)}>
           <h3 className={cn('text-xs font-black uppercase tracking-widest flex items-center gap-2', styles.subtle)}>
             <Zap size={14} /> Cognitive Focus (Last 14 Days)
           </h3>
-          <div className="h-[320px] w-full">
+          <div className="h-[260px] sm:h-[320px] w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" stroke={styles.gridStroke} vertical={false} />
@@ -272,12 +272,12 @@ export default function Analytics() {
         </div>
       </div>
 
-      <section className={cn('border rounded-[40px] p-8 md:p-10', styles.card)}>
+      <section className={cn('border rounded-lg p-5 sm:p-8 md:p-10', styles.card)}>
         <div className="flex items-center gap-4 mb-8">
-          <div className="p-3 bg-orange-500 text-[#FFFFFF] rounded-2xl">
+          <div className="p-3 bg-orange-500 text-[#FFFFFF] rounded-lg">
             <TrendingUp size={24} />
           </div>
-          <h2 className="text-2xl font-black uppercase tracking-tight italic">Performance Summary</h2>
+          <h2 className="text-xl sm:text-2xl font-black uppercase tracking-tight">Performance Summary</h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

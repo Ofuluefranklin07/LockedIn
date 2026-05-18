@@ -186,10 +186,10 @@ export default function AICoach() {
   };
 
   return (
-    <div className="space-y-10">
-      <header className={cn('flex flex-col md:flex-row md:items-center justify-between gap-6 rounded-[36px] border p-6 md:p-8', page.hero)}>
+    <div className="space-y-8 md:space-y-10">
+      <header className={cn('flex flex-col md:flex-row md:items-center justify-between gap-6 rounded-lg border p-5 sm:p-6 md:p-8 overflow-hidden', page.hero)}>
         <div>
-          <h1 className="text-4xl font-black uppercase tracking-tight mb-2 italic">Neural Advisor</h1>
+          <h1 className="text-3xl sm:text-4xl font-black uppercase tracking-tight mb-2">Neural Advisor</h1>
           <p className={cn('font-medium', page.muted)}>
             AI-powered performance analysis, academic chat, and discipline coaching.
           </p>
@@ -198,7 +198,7 @@ export default function AICoach() {
           onClick={generateFeedback}
           disabled={loading}
           className={cn(
-            'px-6 py-4 rounded-2xl font-black uppercase tracking-widest flex items-center justify-center gap-2 transition-all active:scale-95 disabled:opacity-50',
+            'w-full sm:w-auto px-6 py-4 rounded-lg font-black uppercase tracking-widest flex items-center justify-center gap-2 transition-all active:scale-95 disabled:opacity-50 text-xs sm:text-sm',
             isLight
               ? 'bg-slate-950 text-[#FFFFFF] hover:bg-orange-500 shadow-lg shadow-slate-300/80'
               : 'bg-slate-50 text-black hover:bg-orange-500 hover:text-[#FFFFFF] shadow-lg shadow-white/5',
@@ -211,8 +211,8 @@ export default function AICoach() {
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         <div className="lg:col-span-1 space-y-4">
-          <div className={cn('border p-6 rounded-3xl', page.card)}>
-            <div className={cn('w-12 h-12 rounded-xl flex items-center justify-center mb-4', isLight ? 'bg-slate-950 text-[#FFFFFF]' : 'bg-slate-50 text-black')}>
+          <div className={cn('border p-5 sm:p-6 rounded-lg transition-transform hover:-translate-y-1', page.card)}>
+            <div className={cn('w-12 h-12 rounded-lg flex items-center justify-center mb-4', isLight ? 'bg-slate-950 text-[#FFFFFF]' : 'bg-slate-50 text-black')}>
               <Cpu size={24} />
             </div>
             <h4 className="text-xs font-black uppercase tracking-widest mb-2">Analysis Engine</h4>
@@ -221,8 +221,8 @@ export default function AICoach() {
             </p>
           </div>
 
-          <div className={cn('border p-6 rounded-3xl', page.card)}>
-            <div className="w-12 h-12 bg-orange-500 text-[#FFFFFF] rounded-xl flex items-center justify-center mb-4">
+          <div className={cn('border p-5 sm:p-6 rounded-lg transition-transform hover:-translate-y-1', page.card)}>
+            <div className="w-12 h-12 bg-orange-500 text-[#FFFFFF] rounded-lg flex items-center justify-center mb-4">
               <Brain size={24} />
             </div>
             <h4 className="text-xs font-black uppercase tracking-widest mb-2">Academic Chat</h4>
@@ -236,7 +236,7 @@ export default function AICoach() {
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className={cn('border rounded-[40px] p-8 md:p-12 relative overflow-hidden group min-h-[280px]', page.panel)}
+            className={cn('border rounded-lg p-5 sm:p-8 md:p-10 relative overflow-hidden group min-h-[280px]', page.panel)}
           >
             <div className={cn('absolute top-0 right-0 p-8 transition-colors pointer-events-none', isLight ? 'text-orange-200 group-hover:text-orange-300' : 'text-white/10 group-hover:text-orange-500/20')}>
               <Sparkles size={160} fill="currentColor" />
@@ -249,7 +249,7 @@ export default function AICoach() {
                   <div className="w-3 h-3 bg-orange-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
                   <div className="w-3 h-3 bg-orange-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
                 </div>
-                <p className={cn('font-black uppercase tracking-[0.2em] italic text-sm', page.muted)}>
+                <p className={cn('font-black uppercase tracking-[0.2em] text-sm', page.muted)}>
                   Synthesizing Data...
                 </p>
               </div>
@@ -281,7 +281,7 @@ export default function AICoach() {
             ) : (
               <div className="flex flex-col items-center justify-center py-20 text-center">
                 <MessageSquare size={48} className={cn('mb-4', page.subtle)} />
-                <h3 className="text-xl font-bold mb-2 uppercase tracking-widest italic">No Data to Analyze</h3>
+                <h3 className="text-xl font-bold mb-2 uppercase tracking-widest">No Data to Analyze</h3>
                 <p className={cn('max-w-sm mx-auto', page.subtle)}>
                   Start logging your study hours and focus levels to receive personalized coaching.
                 </p>
@@ -295,15 +295,15 @@ export default function AICoach() {
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className={cn('border rounded-[40px] overflow-hidden', page.panel)}
+        className={cn('border rounded-lg overflow-hidden', page.panel)}
       >
         <div className={cn('p-6 md:p-8 border-b flex flex-col lg:flex-row lg:items-center justify-between gap-5', page.chatHeader)}>
           <div>
             <div className="flex items-center gap-3 mb-2">
-              <div className="w-10 h-10 rounded-2xl bg-orange-500 text-[#FFFFFF] flex items-center justify-center shadow-lg shadow-orange-500/20">
+              <div className="w-10 h-10 rounded-lg bg-orange-500 text-[#FFFFFF] flex items-center justify-center shadow-lg shadow-orange-500/20">
                 <MessageSquare size={20} />
               </div>
-              <h2 className="text-2xl md:text-3xl font-black uppercase tracking-tight italic">Ask The Coach</h2>
+              <h2 className="text-2xl md:text-3xl font-black uppercase tracking-tight">Ask The Coach</h2>
             </div>
             <p className={cn('text-sm font-medium max-w-2xl', page.muted)}>
               Chat with the AI about academics, assignments, study systems, exams, and difficult concepts.
@@ -317,7 +317,7 @@ export default function AICoach() {
                 type="button"
                 onClick={() => askAcademicCoach(question)}
                 disabled={chatLoading}
-                className={cn('px-4 py-2 rounded-full border text-[10px] font-black uppercase tracking-widest disabled:opacity-40 transition-all', page.quickButton)}
+                className={cn('px-4 py-2 rounded-lg border text-[10px] font-black uppercase tracking-widest disabled:opacity-40 transition-all active:scale-[0.98]', page.quickButton)}
               >
                 {question}
               </button>
@@ -335,15 +335,15 @@ export default function AICoach() {
                 className={cn('flex gap-3', isUser ? 'justify-end' : 'justify-start')}
               >
                 {!isUser && (
-                  <div className="w-9 h-9 rounded-2xl bg-orange-500 text-[#FFFFFF] border border-orange-400 flex items-center justify-center shrink-0 shadow-lg shadow-orange-500/10">
+                  <div className="w-9 h-9 rounded-lg bg-orange-500 text-[#FFFFFF] border border-orange-400 flex items-center justify-center shrink-0 shadow-lg shadow-orange-500/10">
                     <Brain size={18} />
                   </div>
                 )}
 
                 <div
                   className={cn(
-                    'max-w-[88%] md:max-w-[72%] rounded-[28px] px-5 py-4 text-sm leading-relaxed',
-                    isUser ? 'rounded-tr-md' : 'border rounded-tl-md',
+                    'max-w-[88%] md:max-w-[72%] rounded-lg px-4 sm:px-5 py-4 text-sm leading-relaxed',
+                    isUser ? 'rounded-tr-sm' : 'border rounded-tl-sm',
                     isUser ? page.userBubble : page.assistantBubble,
                   )}
                 >
@@ -362,7 +362,7 @@ export default function AICoach() {
                 </div>
 
                 {isUser && (
-                  <div className={cn('w-9 h-9 rounded-2xl flex items-center justify-center shrink-0', isLight ? 'bg-slate-950 text-[#FFFFFF]' : 'bg-slate-50 text-black')}>
+                  <div className={cn('w-9 h-9 rounded-lg flex items-center justify-center shrink-0', isLight ? 'bg-slate-950 text-[#FFFFFF]' : 'bg-slate-50 text-black')}>
                     <UserRound size={18} />
                   </div>
                 )}
@@ -373,7 +373,7 @@ export default function AICoach() {
           {chatLoading && (
             <div className={cn('flex items-center gap-3 pl-12', page.muted)}>
               <RefreshCw size={16} className="animate-spin" />
-              <span className="text-xs font-black uppercase tracking-widest italic">Coach is thinking...</span>
+              <span className="text-xs font-black uppercase tracking-widest">Coach is thinking...</span>
             </div>
           )}
         </div>
@@ -390,13 +390,13 @@ export default function AICoach() {
                 }
               }}
               placeholder="Ask about a topic, assignment, exam strategy, or study plan..."
-              className={cn('min-h-[56px] max-h-40 flex-1 resize-y border rounded-2xl px-5 py-4 text-sm focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/20 transition-colors', page.input)}
+              className={cn('min-h-[56px] max-h-40 flex-1 resize-y border rounded-lg px-5 py-4 text-sm focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/20 transition-colors', page.input)}
             />
             <button
               type="submit"
               disabled={!chatInput.trim() || chatLoading}
               className={cn(
-                'sm:w-36 h-14 rounded-2xl bg-orange-500 text-[#FFFFFF] font-black uppercase tracking-widest text-xs flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-lg shadow-orange-500/20',
+                'sm:w-36 h-14 rounded-lg bg-orange-500 text-[#FFFFFF] font-black uppercase tracking-widest text-xs flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-lg shadow-orange-500/20 active:scale-[0.98]',
                 isLight ? 'hover:bg-slate-950' : 'hover:bg-slate-50 hover:text-black',
               )}
             >

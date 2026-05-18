@@ -164,14 +164,14 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="space-y-10 md:space-y-14">
+    <div className="space-y-8 md:space-y-12">
       {/* Header Section */}
       <section className="flex flex-col xl:flex-row xl:items-end justify-between gap-8 border-b border-[#222] pb-10 md:pb-14">
         <div className="relative min-w-0">
-          <h1 className="text-[48px] sm:text-[64px] md:text-[76px] xl:text-[92px] font-display font-bold uppercase leading-[0.88] tracking-tight break-words">
+          <h1 className="text-[clamp(3rem,10vw,5.75rem)] font-display font-bold uppercase leading-[0.88] tracking-tight break-words">
             Goals Track
           </h1>
-          <h1 className="text-[48px] sm:text-[64px] md:text-[76px] xl:text-[92px] font-display font-bold uppercase leading-[0.88] tracking-tight translate-x-2 md:translate-x-4 break-words">
+          <h1 className="text-[clamp(3rem,10vw,5.75rem)] font-display font-bold uppercase leading-[0.88] tracking-tight translate-x-2 md:translate-x-4 break-words">
             Center
           </h1>
           <p className="mt-8 max-w-3xl text-[#666] font-mono text-[9px] md:text-[10px] uppercase tracking-[0.14em] font-medium opacity-60 break-words">
@@ -185,7 +185,7 @@ export default function Dashboard() {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-        <div className="border border-[#222] bg-[#0A0A0A] p-6 md:p-8 relative overflow-hidden group">
+        <div className="border border-[#222] bg-[#0A0A0A] p-5 sm:p-6 md:p-8 rounded-lg relative overflow-hidden group transition-transform hover:-translate-y-1">
           <div className="relative z-10">
             <p className="text-[10px] font-mono uppercase text-[#444] tracking-[0.2em] mb-4 font-semibold">
               Operational Streak
@@ -204,7 +204,7 @@ export default function Dashboard() {
           />
         </div>
 
-        <div className="border border-[#222] bg-[#0A0A0A] p-6 md:p-8">
+        <div className="border border-[#222] bg-[#0A0A0A] p-5 sm:p-6 md:p-8 rounded-lg transition-transform hover:-translate-y-1">
           <p className="text-[10px] font-mono uppercase text-[#444] tracking-[0.2em] mb-4 font-semibold">
             Weekly Intensity
           </p>
@@ -221,7 +221,7 @@ export default function Dashboard() {
           </p>
         </div>
 
-        <div className="border border-[#222] bg-[#0A0A0A] p-6 md:p-8">
+        <div className="border border-[#222] bg-[#0A0A0A] p-5 sm:p-6 md:p-8 rounded-lg transition-transform hover:-translate-y-1">
           <p className="text-[10px] font-mono uppercase text-[#444] tracking-[0.2em] mb-4 font-semibold">
             Active Objectives
           </p>
@@ -233,7 +233,7 @@ export default function Dashboard() {
           </p>
         </div>
 
-        <div className="border border-[#222] bg-[#0A0A0A] p-6 md:p-8">
+        <div className="border border-[#222] bg-[#0A0A0A] p-5 sm:p-6 md:p-8 rounded-lg transition-transform hover:-translate-y-1">
           <p className="text-[10px] font-mono uppercase text-[#444] tracking-[0.2em] mb-4 font-semibold">
             {" "}
             Goals Load
@@ -271,10 +271,10 @@ export default function Dashboard() {
                 <Link
                   key={goal.id}
                   to={`/goals/${goal.id}`}
-                  className="group block bg-[#0A0A0A] border border-[#222] p-6 md:p-8 hover:border-[#F5F5F5] transition-all relative overflow-hidden"
+                  className="group block bg-[#0A0A0A] border border-[#222] p-5 sm:p-6 md:p-8 rounded-lg hover:border-[#F5F5F5] transition-all relative overflow-hidden active:scale-[0.99]"
                 >
                   <div className="flex items-start justify-between mb-8">
-                    <div className="space-y-3 min-w-0">
+                    <div className="space-y-3 min-w-0 pr-3">
                       <div className="flex items-center gap-3">
                         <span className="text-[9px] font-mono font-black uppercase tracking-[0.2em] px-2 py-1 bg-[#111] text-[#666] border border-[#222]">
                           {goal.priority}
@@ -283,18 +283,18 @@ export default function Dashboard() {
                           {goal.category}
                         </span>
                       </div>
-                      <h4 className="text-3xl md:text-4xl font-display font-black uppercase italic tracking-tight group-hover:text-white transition-colors break-words">
+                      <h4 className="text-2xl sm:text-3xl md:text-4xl font-display font-black uppercase tracking-tight group-hover:text-white transition-colors break-words">
                         {goal.title}
                       </h4>
                     </div>
                     <ArrowRight
-                      className="text-[#222] group-hover:text-white group-hover:translate-x-2 transition-all"
+                      className="shrink-0 text-[#222] group-hover:text-white group-hover:translate-x-2 transition-all"
                       size={32}
                     />
                   </div>
 
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2 text-[10px] font-mono text-[#444] uppercase tracking-[0.2em] italic font-black">
+                    <div className="flex flex-wrap items-center gap-2 text-[10px] font-mono text-[#444] uppercase tracking-[0.2em] font-black">
                       <Calendar size={12} className="opacity-40" /> Terminal:{" "}
                       {formatDate(goal.deadline)}
                     </div>
@@ -306,13 +306,13 @@ export default function Dashboard() {
                 </Link>
               ))
             ) : (
-              <div className="bg-[#0A0A0A] border border-[#222] border-dashed p-12 text-center">
+              <div className="bg-[#0A0A0A] border border-[#222] border-dashed p-8 sm:p-12 rounded-lg text-center">
                 <p className="text-[#555] font-mono text-xs uppercase tracking-widest italic mb-6">
                   No goals available.
                 </p>
                 <Link
                   to="/goals"
-                  className="inline-block border border-[#F5F5F5] px-8 py-4 text-xs font-black uppercase tracking-widest hover:bg-[#F5F5F5] hover:text-[#050505] transition-all"
+                  className="inline-block border border-[#F5F5F5] px-8 py-4 rounded-lg text-xs font-black uppercase tracking-widest hover:bg-[#F5F5F5] hover:text-[#050505] transition-all active:scale-[0.98]"
                 >
                   Start setting your Goals
                 </Link>
@@ -331,14 +331,14 @@ export default function Dashboard() {
             <div className="space-y-4">
               <Link
                 to="/focus"
-                className="flex items-center justify-between p-6 md:p-8 bg-[#0A0A0A] border border-[#222] hover:border-[#F5F5F5] transition-all group"
+                className="flex items-center justify-between p-5 sm:p-6 md:p-8 bg-[#0A0A0A] border border-[#222] rounded-lg hover:border-[#F5F5F5] transition-all group active:scale-[0.99]"
               >
                 <div className="flex items-center gap-5">
-                  <div className="w-12 h-12 border border-[#222] flex items-center justify-center text-[#444] group-hover:border-white group-hover:text-white transition-all bg-[#050505]">
+                  <div className="w-12 h-12 border border-[#222] rounded-lg flex items-center justify-center text-[#444] group-hover:border-white group-hover:text-white transition-all bg-[#050505]">
                     <Timer size={22} />
                   </div>
                   <div>
-                    <h4 className="font-display font-black text-base md:text-lg uppercase italic tracking-tight">
+                    <h4 className="font-display font-black text-base md:text-lg uppercase tracking-tight">
                       Focus Mode
                     </h4>
                     <p className="text-[9px] font-mono text-[#444] uppercase tracking-[0.2em] mt-1 font-black italic">
@@ -354,14 +354,14 @@ export default function Dashboard() {
 
               <Link
                 to="/coach"
-                className="flex items-center justify-between p-6 md:p-8 bg-[#0A0A0A] border border-[#222] hover:border-[#F5F5F5] transition-all group"
+                className="flex items-center justify-between p-5 sm:p-6 md:p-8 bg-[#0A0A0A] border border-[#222] rounded-lg hover:border-[#F5F5F5] transition-all group active:scale-[0.99]"
               >
                 <div className="flex items-center gap-5">
-                  <div className="w-12 h-12 border border-[#222] flex items-center justify-center text-[#444] group-hover:border-white group-hover:text-white transition-all bg-[#050505]">
+                  <div className="w-12 h-12 border border-[#222] rounded-lg flex items-center justify-center text-[#444] group-hover:border-white group-hover:text-white transition-all bg-[#050505]">
                     <MessageSquare size={22} />
                   </div>
                   <div>
-                    <h4 className="font-display font-black text-base md:text-lg uppercase italic tracking-tight">
+                    <h4 className="font-display font-black text-base md:text-lg uppercase tracking-tight">
                       AI Coach
                     </h4>
                     <p className="text-[9px] font-mono text-[#444] uppercase tracking-[0.2em] mt-1 font-black italic">
@@ -376,11 +376,11 @@ export default function Dashboard() {
               </Link>
             </div>
 
-            <div className="border border-[#F97316]/50 p-8 md:p-10 bg-[#0F0804] relative overflow-hidden group">
+            <div className="border border-[#F97316]/50 p-6 sm:p-8 md:p-10 bg-[#0F0804] rounded-lg relative overflow-hidden group">
               <h4 className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#F97316] mb-6 italic font-black">
                 Advisor Flash
               </h4>
-              <p className="text-sm md:text-base italic leading-relaxed text-[#CCC] mb-8 font-medium">
+              <p className="text-sm md:text-base leading-relaxed text-[#CCC] mb-8 font-medium">
                 "Your focus is highest between 18:00 and 21:00. Maintain this
                 velocity."
               </p>

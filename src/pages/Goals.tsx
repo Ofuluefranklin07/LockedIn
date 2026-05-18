@@ -97,18 +97,18 @@ export default function Goals() {
   }
 
   return (
-    <div className="space-y-12">
+    <div className="space-y-8 md:space-y-12">
       <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-8 mb-12">
         <div className="space-y-4 min-w-0">
-          <h1 className="text-[48px] sm:text-[64px] md:text-[76px] xl:text-[92px] font-display font-black italic uppercase leading-[0.88] tracking-tight break-words">Tactical</h1>
-          <h1 className="text-[48px] sm:text-[64px] md:text-[76px] xl:text-[92px] font-display font-black italic uppercase leading-[0.88] tracking-tight translate-x-2 md:translate-x-4 break-words">Map</h1>
-          <p className="mt-8 text-[#666] font-mono text-[9px] md:text-[10px] uppercase tracking-[0.14em] font-medium italic break-words">
+          <h1 className="text-[clamp(3rem,10vw,5.75rem)] font-display font-black uppercase leading-[0.88] tracking-tight break-words">Tactical</h1>
+          <h1 className="text-[clamp(3rem,10vw,5.75rem)] font-display font-black uppercase leading-[0.88] tracking-tight translate-x-2 md:translate-x-4 break-words">Map</h1>
+          <p className="mt-8 text-[#666] font-mono text-[9px] md:text-[10px] uppercase tracking-[0.14em] font-medium break-words">
              MONITORING ALL ACTIVE GOALS
           </p>
         </div>
         <button 
           onClick={() => setIsModalOpen(true)}
-          className="bg-white text-black w-full sm:w-auto xl:shrink-0 px-10 py-5 font-display font-black uppercase tracking-[0.14em] hover:bg-[#DDD] transition-all italic text-sm active:scale-[0.98]"
+          className="bg-white text-black w-full sm:w-auto xl:shrink-0 px-10 py-5 rounded-lg font-display font-black uppercase tracking-[0.14em] hover:bg-[#DDD] transition-all text-sm active:scale-[0.98]"
         >
           <Plus size={20} className="inline mr-2" /> New Goals
         </button>
@@ -119,7 +119,7 @@ export default function Goals() {
           <Link 
             key={goal.id} 
             to={`/goals/${goal.id}`}
-            className="group block bg-[#0A0A0A] border border-[#222] p-8 md:p-10 hover:border-white transition-all relative overflow-hidden active:scale-[0.99]"
+            className="group block bg-[#0A0A0A] border border-[#222] p-5 sm:p-8 md:p-10 rounded-lg hover:border-white transition-all relative overflow-hidden active:scale-[0.99]"
           >
             <div className="flex justify-between items-start mb-10">
               <div className="flex flex-wrap items-center gap-2">
@@ -143,9 +143,9 @@ export default function Goals() {
               </button>
             </div>
             
-            <h3 className="text-3xl md:text-4xl font-display font-black mb-8 group-hover:text-white uppercase italic tracking-tight leading-tight transition-colors break-words">{goal.title}</h3>
+            <h3 className="text-2xl sm:text-3xl md:text-4xl font-display font-black mb-8 group-hover:text-white uppercase tracking-tight leading-tight transition-colors break-words">{goal.title}</h3>
             
-            <div className="flex items-center gap-4 text-[10px] text-[#444] font-mono tracking-[0.2em] uppercase font-black italic">
+            <div className="flex flex-wrap items-center gap-3 text-[10px] text-[#444] font-mono tracking-[0.2em] uppercase font-black">
               <Calendar size={14} className="opacity-40" /> Terminal: {formatDate(goal.deadline)}
             </div>
 
@@ -156,9 +156,9 @@ export default function Goals() {
         ))}
 
         {goals.length === 0 && (
-          <div className="col-span-full py-32 bg-[#0A0A0A] border border-[#222] border-dashed text-center">
+          <div className="col-span-full py-20 sm:py-32 bg-[#0A0A0A] border border-[#222] border-dashed rounded-lg text-center">
             <Target size={64} className="mx-auto text-[#222] mb-6" />
-            <p className="text-gray-500 font-black uppercase tracking-widest text-sm italic">Clearance Required: No Active Objectives</p>
+            <p className="text-gray-500 font-black uppercase tracking-widest text-sm">Clearance Required: No Active Objectives</p>
           </div>
         )}
       </div>
@@ -171,10 +171,10 @@ export default function Goals() {
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 50 }}
-              className="w-full max-w-xl bg-[#050505] border border-[#222] p-12 relative"
+            className="w-full max-w-xl max-h-[92vh] overflow-y-auto bg-[#050505] border border-[#222] rounded-lg p-5 sm:p-8 md:p-12 relative"
             >
               <div className="flex items-center justify-between mb-12">
-                <h2 className="text-4xl font-black tracking-tighter uppercase italic">New Objective</h2>
+                <h2 className="text-3xl sm:text-4xl font-black tracking-tighter uppercase">New Objective</h2>
                 <button onClick={() => setIsModalOpen(false)} className="text-[#444] hover:text-white transition-colors">
                   <X size={32} />
                 </button>
@@ -194,7 +194,7 @@ export default function Goals() {
                   />
                 </div>
 
-                <div className="grid grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
                   <div className="space-y-2">
                     <label className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#888] italic">Sector</label>
                     <select
@@ -234,7 +234,7 @@ export default function Goals() {
 
                 <button
                   type="submit"
-                  className="w-full bg-white text-black font-black py-6 uppercase tracking-[0.3em] hover:bg-[#DDD] transition-all italic text-sm mt-4"
+                  className="w-full bg-white text-black font-black py-6 rounded-lg uppercase tracking-[0.3em] hover:bg-[#DDD] transition-all text-sm mt-4 active:scale-[0.98]"
                 >
                   Commit Objective
                 </button>
