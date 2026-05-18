@@ -215,15 +215,15 @@ export default function AuthPage({ type }: AuthPageProps) {
             disabled={loading}
             className="w-full bg-white text-black font-display font-bold py-5 uppercase tracking-[0.2em] hover:bg-[#DDD] transition-all disabled:opacity-50 mt-6 text-sm active:scale-[0.98]"
           >
-            {loading ? 'SYNCING_DATA...' : type === 'login' ? 'ESTABLISH_LOCK' : 'INITIALIZE_DISCIPLINE'}
+            {loading ? 'SYNCING_DATA...' : type === 'login' ? 'LOGIN' : 'INITIALIZE_DISCIPLINE'}
           </button>
         </form>
 
         <p className="mt-12 text-center text-[10px] font-mono uppercase tracking-[0.14em] text-[#444] font-semibold">
           {type === 'login' ? (
             <span className="flex flex-col md:flex-row items-center justify-center gap-2">
-              No operative profile?
-              <Link to="/signup" className="text-white hover:underline underline-offset-4 decoration-white/20 ml-1">Register Operative</Link>
+              No account created?
+              <Link to="/signup" className="text-white hover:underline underline-offset-4 decoration-white/20 ml-1">Sign up</Link>
             </span>
           ) : (
             <span className="flex flex-col md:flex-row items-center justify-center gap-2">
